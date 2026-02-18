@@ -73,39 +73,6 @@ If Excel continues to cause problems, consider these alternatives:
 
 ---
 
-## Other Common Issues
-
-### Issue: File Won't Open
-
-**Problem:** Error message when trying to open the CSV file.
-
-**Possible Causes:**
-1. File is corrupted during download
-2. Wrong application is set as default for .csv files
-3. File is still compressed (in a ZIP archive)
-
-**Solutions:**
-1. Re-download the file from Zenodo or GitHub
-2. Right-click the file → Open With → Choose appropriate application
-3. Extract the ZIP archive first if downloaded from Zenodo
-
-### Issue: Missing or Incorrect Data
-
-**Problem:** Some fields appear empty or have unexpected values.
-
-**Check:**
-1. Empty fields in the dataset are intentional - not all publications have all metadata (e.g., books don't have ISSN)
-2. See [DATA_DICTIONARY.md](DATA_DICTIONARY.md) for which fields are expected for each publication type
-3. The `language` field is "en" for all records (all publications are in English)
-
-### Issue: Special Characters in File Paths
-
-**Problem:** Error opening the file if it's saved in a path with special characters or non-English letters.
-
-**Solution:** Move the file to a simpler path like `C:\Data\` or `~/Documents/`
-
----
-
 ## Getting Help
 
 If you encounter issues not covered here:

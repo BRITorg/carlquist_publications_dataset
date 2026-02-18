@@ -1,0 +1,104 @@
+{
+  "title": "Sherwin Carlquist Publications Dataset",
+  "version": "1.0",
+  "date_published": "2026-02-18",
+  "doi": "10.5281/zenodo.18624213",
+  "license": "CC0-1.0",
+  "description": "Comprehensive bibliographic metadata for 343 scientific publications by botanist Sherwin Carlquist (1930-2021), spanning 1956-2021. Documents contributions to plant systematics, wood anatomy, island biogeography, and evolutionary biology.",
+  "keywords": [
+    "botanical bibliography",
+    "Sherwin Carlquist",
+    "wood anatomy",
+    "Compositae",
+    "Asteraceae",
+    "island biogeography",
+    "plant systematics",
+    "Pacific island flora",
+    "biodiversity informatics",
+    "extended specimen network"
+  ],
+  "creators": [
+    {
+      "name": "Gomez, Amanda",
+      "affiliation": "Texas Christian University",
+      "orcid": "0009-0003-3105-735X"
+    },
+    {
+      "name": "Best, Jason H.",
+      "affiliation": "Botanical Research Institute of Texas",
+      "orcid": "0000-0002-7414-5523",
+      "role": "corresponding_author",
+      "email": "jbest@brit.org"
+    }
+  ],
+  "coverage": {
+    "temporal": {
+      "start": "1956",
+      "end": "2021"
+    },
+    "taxonomic": [
+      "Compositae",
+      "Asteraceae",
+      "Flowering plants",
+      "Monocotyledons"
+    ]
+  },
+  "format": "text/csv",
+  "encoding": "UTF-8",
+  "records": 343,
+  "fields": 18,
+  "standards": [
+    "Citation Style Language (CSL-JSON)",
+    "Dublin Core",
+    "ISO 8601 (dates)",
+    "ISO 639-1 (language codes)"
+  ],
+  "processing_tools": [
+    "Python 3",
+    "CrossRef API",
+    "OpenRefine",
+    "Claude.ai (Anthropic) for data refinement and documentation"
+  ],
+  "data_sources": [
+    "CrossRef DOI database",
+    "JSTOR digital library",
+    "Publisher websites and repositories",
+    "Biodiversity Heritage Library",
+    "Plant Discoveries Sherwin Carlquist website",
+    "Original publication examination"
+  ],
+  "related_resources": [
+    {
+      "title": "Sherwin Carlquist in Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q2251003",
+      "relation": "IsDescribedBy"
+    },
+    {
+      "title": "Sherwin Carlquist Collection at BRIT",
+      "url": "https://fwbg.org/science-conservation/brit-library/the-sherwin-carlquist-collection/",
+      "relation": "IsPartOf"
+    },
+    {
+      "title": "Sherwin Carlquist Collection - Portal to Texas History",
+      "url": "https://texashistory.unt.edu/explore/collections/SJCC/",
+      "relation": "IsPartOf"
+    },
+    {
+      "title": "California Botanic Garden Herbarium (RSA)",
+      "url": "https://www.cch2.org/portal/collections/misc/collprofiles.php?collid=17",
+      "relation": "IsPartOf"
+    },
+    {
+      "title": "California Botanic Garden Xylarium",
+      "url": "https://www.cch2.org/portal/collections/misc/collprofiles.php?collid=105",
+      "relation": "IsPartOf"
+    }
+  ],
+  "project": {
+    "name": "Sherwin Carlquist Digital Extended Specimen Network",
+    "collaborators": [
+      "Botanical Research Institute of Texas (BRIT)",
+      "California Botanic Garden"
+    ]
+  }
+}

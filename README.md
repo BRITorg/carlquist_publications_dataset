@@ -23,8 +23,7 @@ This dataset includes the following files:
 - **Standards:** Citation Style Language (CSL-JSON), Dublin Core
 - **Records:** 343 publications
 - **Date Range:** 1956-2021
-- **Version:** 1.0
-- **DOI:** 10.5281/zenodo.18624213
+- **Version:** 1.0.1
 
 ## Dataset Structure
 
@@ -162,9 +161,7 @@ Sherwin Carlquist (1930-2021) has a Wikidata entry at:
 
 ## How to Cite
 
-When using this dataset, please cite:
-
-> Gomez, Amanda; Best, Jason H. (2026). Sherwin Carlquist Publications Dataset (Version 1.0) [Data set]. Zenodo. https://doi.org/10.5281/zenodo.18624213
+When using this dataset, please cite as recommended in Zenodo.
 
 ## License
 
@@ -226,7 +223,6 @@ Dataset preparation was assisted by Claude.ai (Anthropic) for data standardizati
 - 343 bibliographic records spanning 1956-2021
 - 18 standardized metadata fields (CSL-JSON and Dublin Core compliant)
 - Complete documentation and related resource links
-- DOI: 10.5281/zenodo.18624213
 
 ---
 

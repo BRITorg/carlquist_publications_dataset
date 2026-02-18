@@ -109,8 +109,8 @@ Publications primarily address:
 
 This dataset is part of the **Sherwin Carlquist Digital Extended Specimen Network**, a collaborative project between:
 - Botanical Research Institute of Texas (BRIT)
-- California Botanic Garden (formerly Rancho Santa Ana Botanic Garden)
-
+- California Botanic Garden
+  
 ### Sherwin Carlquist Collection at BRIT
 
 The physical collection and additional information about the Extended Specimen Network project are available at:  
@@ -121,12 +121,12 @@ https://fwbg.org/science-conservation/brit-library/the-sherwin-carlquist-collect
 Digital materials from the Sherwin Carlquist Collection are available through The Portal to Texas History:  
 https://texashistory.unt.edu/explore/collections/SJCC/
 
-### California Botanic Garden Collections
+### California Botanic Garden Collections (formerly Rancho Santa Ana Botanic Garden)
 
-**Herbarium (RSA):**  
+**Herbarium (RSA-VascularPlants):**  
 https://www.cch2.org/portal/collections/misc/collprofiles.php?collid=17
 
-**Xylarium (Wood Collection):**  
+**Xylarium (RSA-Wood):**  
 https://www.cch2.org/portal/collections/misc/collprofiles.php?collid=105
 
 ### Sherwin Carlquist in Wikidata

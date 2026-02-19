@@ -15,7 +15,7 @@
     {
       "name": "Niño, Ana",
       "affiliation": "Botanical Research Institute of Texas",
-      "orcid": "0009-0000-3638-9351",
+      "orcid": "0009-0000-3638-9351", 
       "type": "ProjectMember"
     },
     {
@@ -34,6 +34,12 @@
       "name": "Wu, Annica",
       "affiliation": "California Botanic Garden",
       "orcid": "0009-0003-2879-9598",
+      "type": "ProjectMember"
+    }
+    {
+      "name": "Goodrich, Garrett",
+      "affiliation": "California Botanic Garden",
+      "orcid": "0009-0003-8322-2249",
       "type": "ProjectMember"
     }
   ],

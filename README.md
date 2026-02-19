@@ -6,6 +6,8 @@ This dataset contains comprehensive bibliographic metadata for 343 scientific pu
 
 Carlquist's work was foundational in understanding plant evolution on Pacific islands, wood anatomy across flowering plant families (particularly Compositae/Asteraceae), and the mechanisms of long-distance plant dispersal. This bibliographic compilation serves as a comprehensive record of his scholarly output and provides structured metadata for integration with botanical collections, specimen records, and digital humanities research.
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18687469.svg)](https://doi.org/10.5281/zenodo.18687469)
+
 ## Contents
 
 This dataset includes the following files:

@@ -1,8 +1,8 @@
 {
   "title": "Sherwin Carlquist Publications Dataset",
-  "version": "1.0",
-  "date_published": "2026-02-18",
-  "doi": "10.5281/zenodo.18624213",
+  "version": "1.0.1",
+  "date_published": "2026-02-19",
+  "doi": "10.5281/zenodo.18687469",
   "license": "CC0-1.0",
   "description": "Comprehensive bibliographic metadata for 343 scientific publications by botanist Sherwin Carlquist (1930-2021), spanning 1956-2021. Documents contributions to plant systematics, wood anatomy, island biogeography, and evolutionary biology.",
   "keywords": [

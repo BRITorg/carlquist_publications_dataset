@@ -278,9 +278,13 @@ ORCID: 0009-0003-3105-735X
 
 **Institution:** Fort Worth Botanic Garden / Botanical Research Institute of Texas  
 **Related Project:** Sherwin Carlquist Digital Extended Specimen Network  
-**DOI:** 10.5281/zenodo.18624213
+**DOI:** 10.5281/zenodo.18687469
 
 ## Version History
+
+### Version 1.0.1 (February 19, 2026)
+- Updated DOI references to published Zenodo DOI (10.5281/zenodo.18687469)
+- No changes to field definitions or data structure
 
 ### Version 1.0 (February 18, 2026)
 - Initial public release

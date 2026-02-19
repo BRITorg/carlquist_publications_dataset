@@ -31,10 +31,10 @@ keywords:
   - "extended specimen network"
   - "botanical literature"
 license: CC0-1.0
-version: 1.0
-date-released: 2026-02-18
-url: "https://zenodo.org/records/18624213"
+version: 1.0.1
+date-released: 2026-02-19
+url: "https://zenodo.org/records/18687469"
 identifiers:
   - type: doi
-    value: "10.5281/zenodo.18624213"
+    value: "10.5281/zenodo.18687469"
     description: "Zenodo DOI"

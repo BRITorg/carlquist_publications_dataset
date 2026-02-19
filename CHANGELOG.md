@@ -5,6 +5,33 @@ All notable changes to this dataset will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] - 2026-02-19
+
+### Changed
+- Updated all DOI references from reserved placeholder (10.5281/zenodo.18624213) to published Zenodo DOI (10.5281/zenodo.18687469)
+- Updated version metadata to 1.0.1 in CITATION.cff and dataset_metadata.json
+- Updated publication date to 2026-02-19 in CITATION.cff and dataset_metadata.json
+- Updated Zenodo record URL to https://zenodo.org/records/18687469
+
+### Added
+- DOI badge to README.md
+
+### Fixed
+- Corrected DOI in README.md
+- Corrected DOI in CHANGELOG.md (v1.0 section)
+- Corrected DOI in CITATION.cff
+- Corrected DOI in DATA_DICTIONARY.md
+- Corrected DOI in dataset_metadata.json
+
+### Documentation
+- Added version 1.0.1 entry to DATA_DICTIONARY.md version history
+
+### Note
+This is a metadata-only update. The dataset CSV and field definitions remain unchanged from v1.0.
+
+---
+
+
 ## [1.0] - 2026-02-18
 
 ### Initial Public Release
@@ -52,7 +79,7 @@ This is the first public release of the Sherwin Carlquist Publications Dataset. 
 - File format: CSV (UTF-8 encoding)
 - Standards compliance: CSL-JSON, Dublin Core, ISO 8601, ISO 639-1
 - License: CC0 1.0 Universal (Public Domain Dedication)
-- DOI: 10.5281/zenodo.18624213
+- DOI: 10.5281/zenodo.18687469
 
 #### Tools Used
 - Python 3 for data processing and standardization

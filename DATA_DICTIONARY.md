@@ -240,9 +240,7 @@ Publications primarily focus on:
 ## Usage Guidelines
 
 ### Citation
-When using this dataset, please cite:
-
-> Gomez, Amanda; Best, Jason H. (2026). Sherwin Carlquist Publications Dataset (Version 1.0-alpha.1) [Data set]. Zenodo. https://doi.org/10.5281/zenodo.18624213
+When using this dataset, please use format as recommended on publishing platform or refer to the CITATION.cff file.
 
 ### License
 CC0 1.0 Universal (Public Domain Dedication)
@@ -283,5 +281,3 @@ ORCID: 0009-0003-3105-735X
 ## Version History
 
 For complete version history, see [CHANGELOG.md](CHANGELOG.md).
-
-**Current Version:** 1.0.2 (February 25, 2026)

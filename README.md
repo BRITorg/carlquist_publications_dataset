@@ -25,7 +25,7 @@ This dataset includes the following files:
 - **Standards:** Citation Style Language (CSL-JSON), Dublin Core
 - **Records:** 343 publications
 - **Date Range:** 1956-2021
-- **Version:** 1.0.1
+- **Version:** 1.0.4
 
 ## Dataset Structure
 
@@ -220,7 +220,7 @@ Dataset preparation was assisted by Claude.ai (Anthropic) for data standardizati
 
 ## Version
 
-**Current Version:** 1.0.2  
+**Current Version:** 1.0.4  
 **Released:** February 25, 2026  
 **DOI:** 10.5281/zenodo.18687469
 

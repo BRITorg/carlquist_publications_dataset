@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [1.0.4] - 2026-02-19
+
+### Fixed
+- Corrected .zenodo.json structure for proper Zenodo metadata handling
+- Fixed field nesting (moved description, funding, languages, subjects to root level)
+- Updated contributor format to match Zenodo's current schema
+
+### Note
+This version corrects metadata issues from v1.0.2 and v1.0.3. The dataset CSV and documentation remain unchanged.
+
+
 ## [1.0.3] - 2026-02-25
 
 ### Fixed

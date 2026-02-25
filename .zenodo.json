@@ -7,6 +7,18 @@
       "type": "ProjectMember"
     },
     {
+      "name": "Goodrich, Garrett",
+      "affiliation": "California Botanic Garden",
+      "orcid": "0009-0003-8322-2249",
+      "type": "ProjectMember"
+    },
+    {
+      "name": "Joseph, Ava",
+      "affiliation": "California Botanic Garden",
+      "orcid": "0000-0002-8762-948X",
+      "type": "ProjectMember"
+    },
+    {
       "name": "Nazaire, Mare",
       "affiliation": "California Botanic Garden",
       "orcid": "0000-0003-3949-7192",
@@ -19,27 +31,21 @@
       "type": "ProjectMember"
     },
     {
+      "name": "Novak, Chloe",
+      "affiliation": "California Botanic Garden",
+      "orcid": "0009-0006-9999-2477",
+      "type": "ProjectMember"
+    },
+    {
       "name": "Shenoy, Krishna",
       "affiliation": "Botanical Research Institute of Texas",
       "orcid": "0009-0001-6517-9203",
       "type": "ProjectMember"
     },
     {
-      "name": "Joseph, Ava",
-      "affiliation": "California Botanic Garden",
-      "orcid": "0000-0002-8762-948X",
-      "type": "ProjectMember"
-    },
-    {
       "name": "Wu, Annica",
       "affiliation": "California Botanic Garden",
       "orcid": "0009-0003-2879-9598",
-      "type": "ProjectMember"
-    }
-    {
-      "name": "Goodrich, Garrett",
-      "affiliation": "California Botanic Garden",
-      "orcid": "0009-0003-8322-2249",
       "type": "ProjectMember"
     }
   ],

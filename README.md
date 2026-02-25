@@ -218,13 +218,13 @@ This work builds upon the extraordinary scientific legacy of Dr. Sherwin Carlqui
 
 Dataset preparation was assisted by Claude.ai (Anthropic) for data standardization, quality control, and documentation development.
 
-## Version History
+## Version
 
-**Version 1.0** (February 18, 2026)
-- Initial public release
-- 343 bibliographic records spanning 1956-2021
-- 18 standardized metadata fields (CSL-JSON and Dublin Core compliant)
-- Complete documentation and related resource links
+**Current Version:** 1.0.2  
+**Released:** February 25, 2026  
+**DOI:** 10.5281/zenodo.18687469
+
+For detailed version history, see [CHANGELOG.md](CHANGELOG.md).
 
 ---
 

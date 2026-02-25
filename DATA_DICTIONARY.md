@@ -282,15 +282,6 @@ ORCID: 0009-0003-3105-735X
 
 ## Version History
 
-### Version 1.0.1 (February 19, 2026)
-- Updated DOI references to published Zenodo DOI (10.5281/zenodo.18687469)
-- No changes to field definitions or data structure
+For complete version history, see [CHANGELOG.md](CHANGELOG.md).
 
-### Version 1.0 (February 18, 2026)
-- Initial public release
-- 343 publication records spanning 1956-2021
-- 18 standardized fields following CSL-JSON and Dublin Core
-- Complete field documentation
-- Includes book chapter metadata with editor field
-- DOI enrichment from CrossRef API
-- All publications in English (language code: en)
+**Current Version:** 1.0.2 (February 25, 2026)

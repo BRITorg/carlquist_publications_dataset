@@ -11,10 +11,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Updated version metadata to 1.0.2 in CITATION.cff and dataset_metadata.json
 - Updated publication date to 2026-02-25 in CITATION.cff and dataset_metadata.json
+- Removed full change history and added reference to CHANGELOG.md in README.md DATA_DICTIONARY.md
 
 ### Added
 - .zenodo.json file with contributors and subjects
 
+### Note
+This is a metadata-only update. The dataset CSV and field definitions remain unchanged from v1.0.
 
 ## [1.0.1] - 2026-02-19
 

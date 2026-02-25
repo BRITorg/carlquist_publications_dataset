@@ -1,277 +1,82 @@
 {
   "title": "Sherwin Carlquist Publications Dataset",
   "description": "Comprehensive bibliographic metadata for 343 scientific publications by botanist Sherwin Carlquist (1930-2021), spanning 1956-2021. The dataset documents his contributions to plant systematics, wood anatomy, island biogeography, and evolutionary biology. Metadata follows Citation Style Language (CSL-JSON) and Dublin Core standards, with enrichment from CrossRef DOI database.",
-  "publisher": "Botanical Research Institute of Texas",
-  "resource_type": {
-    "id": "dataset",
-    "title": {
-      "de": "Datensatz",
-      "en": "Dataset"
-    }
-  },
+  "upload_type": "dataset",
   "creators": [
     {
-      "person_or_org": {
-        "type": "personal",
-        "name": "Gomez, Amanda",
-        "given_name": "Amanda",
-        "family_name": "Gomez",
-        "identifiers": [
-          {
-            "scheme": "orcid",
-            "identifier": "0009-0003-3105-735X"
-          }
-        ]
-      },
-      "affiliations": [
-        {
-          "name": "Texas Christian University"
-        }
-      ]
+      "name": "Gomez, Amanda",
+      "affiliation": "Texas Christian University",
+      "orcid": "0009-0003-3105-735X"
     },
     {
-      "person_or_org": {
-        "type": "personal",
-        "name": "Best, Jason H.",
-        "given_name": "Jason H.",
-        "family_name": "Best",
-        "identifiers": [
-          {
-            "scheme": "orcid",
-            "identifier": "0000-0002-7414-5523"
-          }
-        ]
-      },
-      "affiliations": [
-        {
-          "name": "Botanical Research Institute of Texas"
-        }
-      ]
+      "name": "Best, Jason H.",
+      "affiliation": "Botanical Research Institute of Texas",
+      "orcid": "0000-0002-7414-5523"
     }
   ],
   "contributors": [
     {
-      "person_or_org": {
-        "type": "personal",
-        "name": "Ekberg, Samantha",
-        "identifiers": [
-          {
-            "scheme": "orcid",
-            "identifier": "0009-0007-1839-7885"
-          }
-        ]
-      },
-      "role": {
-        "id": "projectmember"
-      },
-      "affiliations": [
-        {
-          "name": "Botanical Research Institute of Texas"
-        }
-      ]
+      "name": "Ekberg, Samantha",
+      "affiliation": "Botanical Research Institute of Texas",
+      "orcid": "0009-0007-1839-7885",
+      "type": "ProjectMember"
     },
     {
-      "person_or_org": {
-        "type": "personal",
-        "name": "Goodrich, Garrett",
-        "identifiers": [
-          {
-            "scheme": "orcid",
-            "identifier": "0009-0003-8322-2249"
-          }
-        ]
-      },
-      "role": {
-        "id": "projectmember"
-      },
-      "affiliations": [
-        {
-          "name": "California Botanic Garden"
-        }
-      ]
+      "name": "Goodrich, Garrett",
+      "affiliation": "California Botanic Garden",
+      "orcid": "0009-0003-8322-2249",
+      "type": "ProjectMember"
     },
     {
-      "person_or_org": {
-        "type": "personal",
-        "name": "Joseph, Ava",
-        "identifiers": [
-          {
-            "scheme": "orcid",
-            "identifier": "0000-0002-8762-948X"
-          }
-        ]
-      },
-      "role": {
-        "id": "projectmember"
-      },
-      "affiliations": [
-        {
-          "name": "California Botanic Garden"
-        }
-      ]
+      "name": "Joseph, Ava",
+      "affiliation": "California Botanic Garden",
+      "orcid": "0000-0002-8762-948X",
+      "type": "ProjectMember"
     },
     {
-      "person_or_org": {
-        "type": "personal",
-        "name": "Nazaire, Mare",
-        "identifiers": [
-          {
-            "scheme": "orcid",
-            "identifier": "0000-0003-3949-7192"
-          }
-        ]
-      },
-      "role": {
-        "id": "projectmember"
-      },
-      "affiliations": [
-        {
-          "name": "California Botanic Garden"
-        }
-      ]
+      "name": "Nazaire, Mare",
+      "affiliation": "California Botanic Garden",
+      "orcid": "0000-0003-3949-7192",
+      "type": "ProjectMember"
     },
     {
-      "person_or_org": {
-        "type": "personal",
-        "name": "Niño, Ana",
-        "identifiers": [
-          {
-            "scheme": "orcid",
-            "identifier": "0009-0000-3638-9351"
-          }
-        ]
-      },
-      "role": {
-        "id": "projectmember"
-      },
-      "affiliations": [
-        {
-          "name": "Botanical Research Institute of Texas"
-        }
-      ]
+      "name": "Niño, Ana",
+      "affiliation": "Botanical Research Institute of Texas",
+      "orcid": "0009-0000-3638-9351",
+      "type": "ProjectMember"
     },
     {
-      "person_or_org": {
-        "type": "personal",
-        "name": "Novak, Chloe",
-        "identifiers": [
-          {
-            "scheme": "orcid",
-            "identifier": "0009-0006-9999-2477"
-          }
-        ]
-      },
-      "role": {
-        "id": "projectmember"
-      },
-      "affiliations": [
-        {
-          "name": "California Botanic Garden"
-        }
-      ]
+      "name": "Novak, Chloe",
+      "affiliation": "California Botanic Garden",
+      "orcid": "0009-0006-9999-2477",
+      "type": "ProjectMember"
     },
     {
-      "person_or_org": {
-        "type": "personal",
-        "name": "Shenoy, Krishna",
-        "identifiers": [
-          {
-            "scheme": "orcid",
-            "identifier": "0009-0001-6517-9203"
-          }
-        ]
-      },
-      "role": {
-        "id": "projectmember"
-      },
-      "affiliations": [
-        {
-          "name": "Botanical Research Institute of Texas"
-        }
-      ]
+      "name": "Shenoy, Krishna",
+      "affiliation": "Botanical Research Institute of Texas",
+      "orcid": "0009-0001-6517-9203",
+      "type": "ProjectMember"
     },
     {
-      "person_or_org": {
-        "type": "personal",
-        "name": "Wu, Annica",
-        "identifiers": [
-          {
-            "scheme": "orcid",
-            "identifier": "0009-0003-2879-9598"
-          }
-        ]
-      },
-      "role": {
-        "id": "projectmember"
-      },
-      "affiliations": [
-        {
-          "name": "California Botanic Garden"
-        }
-      ]
+      "name": "Wu, Annica",
+      "affiliation": "California Botanic Garden",
+      "orcid": "0009-0003-2879-9598",
+      "type": "ProjectMember"
     }
   ],
-  "languages": [
-    {
-      "id": "eng"
-    }
+  "keywords": [
+    "botanical bibliography",
+    "Sherwin Carlquist",
+    "wood anatomy",
+    "Compositae",
+    "Asteraceae",
+    "island biogeography",
+    "plant systematics",
+    "Pacific island flora",
+    "biodiversity informatics",
+    "extended specimen network",
+    "botanical literature"
   ],
-  "subjects": [
-    {
-      "subject": "botanical bibliography"
-    },
-    {
-      "subject": "Sherwin Carlquist"
-    },
-    {
-      "subject": "wood anatomy"
-    },
-    {
-      "subject": "Compositae"
-    },
-    {
-      "subject": "Asteraceae"
-    },
-    {
-      "subject": "island biogeography"
-    },
-    {
-      "subject": "plant systematics"
-    },
-    {
-      "subject": "Pacific island flora"
-    },
-    {
-      "subject": "biodiversity informatics"
-    },
-    {
-      "subject": "extended specimen network"
-    },
-    {
-      "subject": "botanical literature"
-    },
-    {
-      "id": "mesh:D014934",
-      "scheme": "MeSH",
-      "subject": "Wood"
-    },
-    {
-      "id": "gemet:concept/9349",
-      "scheme": "GEMET",
-      "subject": "Wood"
-    },
-    {
-      "id": "gemet:concept/836",
-      "scheme": "GEMET",
-      "subject": "Biogeography"
-    }
-  ],
-  "funding": [
-    {
-      "funder": {
-        "id": "021nxhr62",
-        "name": "U.S. National Science Foundation"
-      },
-      "award": {
-        "id": "021nxhr62::2133562",
-        "number": "213
+  "license": "cc-zero",
+  "publication_date": "2026-02-25"
+}

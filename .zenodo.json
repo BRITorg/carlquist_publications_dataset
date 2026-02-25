@@ -2,6 +2,7 @@
   "title": "Sherwin Carlquist Publications Dataset",
   "description": "Comprehensive bibliographic metadata for 343 scientific publications by botanist Sherwin Carlquist (1930-2021), spanning 1956-2021. The dataset documents his contributions to plant systematics, wood anatomy, island biogeography, and evolutionary biology. Metadata follows Citation Style Language (CSL-JSON) and Dublin Core standards, with enrichment from CrossRef DOI database.",
   "upload_type": "dataset",
+  "publisher": "Botanical Research Institute of Texas",
   "creators": [
     {
       "name": "Gomez, Amanda",
@@ -76,6 +77,23 @@
     "biodiversity informatics",
     "extended specimen network",
     "botanical literature"
+  ],
+  "subjects": [
+    {
+      "term": "Wood",
+      "scheme": "MeSH",
+      "identifier": "https://id.nlm.nih.gov/mesh/D014934"
+    },
+    {
+      "term": "Wood",
+      "scheme": "GEMET",
+      "identifier": "https://www.eionet.europa.eu/gemet/en/concept/9349"
+    },
+    {
+      "term": "Biogeography",
+      "scheme": "GEMET",
+      "identifier": "https://www.eionet.europa.eu/gemet/en/concept/836"
+    }
   ],
   "license": "cc-zero",
   "publication_date": "2026-02-25"

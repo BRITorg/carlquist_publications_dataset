@@ -1,4 +1,47 @@
 {
+  "title": "Sherwin Carlquist Publications Dataset",
+  "copyright": "Botanical Research Institute of Texas",
+  "publisher": "Botanical Research Institute of Texas",
+  "creators": [
+    {
+      "affiliations": [
+        {
+          "name": "Texas Christian University"
+        }
+      ],
+      "person_or_org": {
+        "family_name": "Gomez",
+        "given_name": "Amanda",
+        "identifiers": [
+          {
+            "identifier": "0009-0003-3105-735X",
+            "scheme": "orcid"
+          }
+        ],
+        "name": "Gomez, Amanda",
+        "type": "personal"
+      }
+    },
+    {
+      "affiliations": [
+        {
+          "name": "Botanical Research Institute of Texas"
+        }
+      ],
+      "person_or_org": {
+        "family_name": "Best",
+        "given_name": "Jason H.",
+        "identifiers": [
+          {
+            "identifier": "0000-0002-7414-5523",
+            "scheme": "orcid"
+          }
+        ],
+        "name": "Best, Jason H.",
+        "type": "personal"
+      }
+    }
+  ],
   "contributors": [
     {
       "name": "Ekberg, Samantha",
@@ -27,7 +70,7 @@
     {
       "name": "Niño, Ana",
       "affiliation": "Botanical Research Institute of Texas",
-      "orcid": "0009-0000-3638-9351", 
+      "orcid": "0009-0000-3638-9351",
       "type": "ProjectMember"
     },
     {
@@ -49,21 +92,120 @@
       "type": "ProjectMember"
     }
   ],
-  "subjects": [
-    {
-      "term": "Biogeography",
-      "identifier": "https://www.eionet.europa.eu/gemet/en/concept/836",
-      "scheme": "url"
+  "resource_type": {
+    "id": "dataset",
+    "title": {
+      "de": "Datensatz",
+      "en": "Dataset"
     },
-    {
-      "term": "Wood",
-      "identifier": "https://www.eionet.europa.eu/gemet/en/concept/9349",
-      "scheme": "url"
-    },
-    {
-      "term": "Wood",
-      "identifier": "https://id.nlm.nih.gov/mesh/D014934",
-      "scheme": "url"
-    }
-  ]
+    "description": "Comprehensive bibliographic metadata for 343 scientific publications by botanist Sherwin Carlquist (1930-2021), spanning 1956-2021. The dataset documents his contributions to plant systematics, wood anatomy, island biogeography, and evolutionary biology. Metadata follows Citation Style Language (CSL-JSON) and Dublin Core standards, with enrichment from CrossRef DOI database.",
+    "funding": [
+      {
+        "award": {
+          "id": "021nxhr62::2133562",
+          "number": "2133562",
+          "program": "BIO/OAD",
+          "title": {
+            "en": "Collaborative Research: Advancing the Extended Specimen Network: Curating and Digitizing the Sherwin Carlquist Collection"
+          }
+        },
+        "funder": {
+          "id": "021nxhr62",
+          "name": "U.S. National Science Foundation"
+        }
+      }
+    ],
+    "languages": [
+      {
+        "id": "eng",
+        "title": {
+          "en": "English"
+        }
+      }
+    ],
+    "subjects": [
+      {
+        "subject": "botanical bibliography"
+      },
+      {
+        "subject": "Sherwin Carlquist"
+      },
+      {
+        "subject": "wood anatomy"
+      },
+      {
+        "subject": "Compositae"
+      },
+      {
+        "subject": "Asteraceae"
+      },
+      {
+        "subject": "island biogeography"
+      },
+      {
+        "subject": "plant systematics"
+      },
+      {
+        "subject": "Pacific island flora"
+      },
+      {
+        "subject": "biodiversity informatics"
+      },
+      {
+        "subject": "extended specimen network"
+      },
+      {
+        "subject": "botanical literature"
+      },
+      {
+        "id": "mesh:D014934",
+        "scheme": "MeSH",
+        "subject": "Wood"
+      },
+      {
+        "id": "gemet:concept/9349",
+        "identifiers": [
+          {
+            "identifier": "http://www.eionet.europa.eu/gemet/concept/9349",
+            "scheme": "url"
+          }
+        ],
+        "props": {
+          "groups": [
+            "http://www.eionet.europa.eu/gemet/group/4630"
+          ],
+          "parents": "gemet:concept/4599,gemet:concept/5494,gemet:concept/8386,gemet:concept/3406",
+          "themes": [
+            "http://www.eionet.europa.eu/gemet/theme/14",
+            "http://www.eionet.europa.eu/gemet/theme/23",
+            "http://www.eionet.europa.eu/gemet/theme/27"
+          ]
+        },
+        "scheme": "GEMET",
+        "subject": "Wood"
+      },
+      {
+        "id": "gemet:concept/836",
+        "identifiers": [
+          {
+            "identifier": "http://www.eionet.europa.eu/gemet/concept/836",
+            "scheme": "url"
+          }
+        ],
+        "props": {
+          "groups": [
+            "http://www.eionet.europa.eu/gemet/group/7136"
+          ],
+          "parents": "gemet:concept/7472,gemet:concept/3646",
+          "themes": [
+            "http://www.eionet.europa.eu/gemet/theme/16",
+            "http://www.eionet.europa.eu/gemet/theme/30",
+            "http://www.eionet.europa.eu/gemet/theme/4"
+          ]
+        },
+        "scheme": "GEMET",
+        "subject": "Biogeography"
+      }
+    ]
+  }
 }

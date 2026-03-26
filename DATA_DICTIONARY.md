@@ -3,12 +3,12 @@
 ## Overview
 This dataset contains bibliographic metadata for 343 scientific publications by botanist Sherwin Carlquist, spanning his career from 1956 through his later works. The dataset follows Citation Style Language (CSL) and Dublin Core metadata standards.
 
-**Version:** 1.0.4
-**Last Updated:** February 25, 2026  
+**Version:** 1.1  
+**Last Updated:** March 26, 2026  
 **Encoding:** UTF-8  
 **Format:** CSV (Comma-Separated Values)  
 **Records:** 343 publications  
-**Fields:** 18
+**Fields:** 19
 
 ## Field Definitions
 
@@ -178,11 +178,22 @@ This dataset contains bibliographic metadata for 343 scientific publications by 
 - **Dublin Core:** `dc:language`
 - **Notes:** All publications in this dataset are in English
 
+### wikidata_id
+- **Description:** Wikidata identifier (QID) for the publication
+- **Data Type:** String
+- **Required:** When available
+- **Format:** Q followed by digits (Wikidata QID format)
+- **Example:** "Q93973579", "Q100376810"
+- **CSL Mapping:** N/A (extension field)
+- **Dublin Core:** `dc:identifier`
+- **Notes:** Links to the Wikidata item for this publication. Obtained through OpenRefine reconciliation against Wikidata. Coverage: ~31% of records (107 of 343 publications). Can be used to construct full Wikidata URL: https://www.wikidata.org/wiki/{wikidata_id}
+
 ## Data Quality Notes
 
 ### Completeness
 - All records include: title, author, year, issued date, type, and language
 - DOIs are present for approximately 40% of records (varies by publication era)
+- Wikidata IDs are present for approximately 31% of records (107 publications)
 - ISBNs and OCLC numbers primarily available for books (14 book records)
 - URLs available for many but not all publications
 
@@ -281,3 +292,20 @@ ORCID: 0009-0003-3105-735X
 ## Version History
 
 For complete version history, see [CHANGELOG.md](CHANGELOG.md).
+
+**Current Version:** 1.1 (March 26, 2026)
+
+### Version 1.1 (March 26, 2026)
+- Added wikidata_id field (19 fields total)
+- Wikidata identifiers added for 107 publications (~31% coverage)
+- Obtained through OpenRefine reconciliation against Wikidata
+- No changes to other field definitions or data structure
+
+### Version 1.0 (February 18, 2026)
+- Initial public release
+- 343 publication records spanning 1956-2021
+- 18 standardized fields following CSL-JSON and Dublin Core
+- Complete field documentation
+- Includes book chapter metadata with editor field
+- DOI enrichment from CrossRef API
+- All publications in English (language code: en)

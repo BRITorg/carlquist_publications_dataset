@@ -80,17 +80,17 @@
   ],
   "subjects": [
     {
-      "subject": "Wood",
+      "term": "Wood",
       "scheme": "MeSH",
       "identifier": "https://id.nlm.nih.gov/mesh/D014934"
     },
     {
-      "subject": "Wood",
+      "term": "Wood",
       "scheme": "GEMET",
       "identifier": "https://www.eionet.europa.eu/gemet/en/concept/9349"
     },
     {
-      "subject": "Biogeography",
+      "term": "Biogeography",
       "scheme": "GEMET",
       "identifier": "https://www.eionet.europa.eu/gemet/en/concept/836"
     }

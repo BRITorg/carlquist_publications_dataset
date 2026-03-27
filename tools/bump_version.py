@@ -282,7 +282,7 @@ def run(cmd: str) -> tuple[int, str]:
     return result.returncode, (result.stdout + result.stderr).strip()
 
 
-def release(version: str):
+def release(version: str, yes: bool = False):
     """Create a git tag and GitHub release for the given version."""
     tag = f"v{version}"
 
@@ -337,10 +337,13 @@ def release(version: str):
     print(f"  1. Create annotated git tag: {tag}")
     print(f"  2. Push tag to origin")
     print(f"  3. Create GitHub release: {tag}")
-    answer = input("\nProceed? [y/N] ").strip().lower()
-    if answer != "y":
-        print("Aborted.")
-        sys.exit(0)
+    if yes:
+        print("\n--yes flag set, proceeding.")
+    else:
+        answer = input("\nProceed? [y/N] ").strip().lower()
+        if answer != "y":
+            print("Aborted.")
+            sys.exit(0)
 
     # 4. Create and push tag
     title = f"Version {version}"
@@ -390,10 +393,12 @@ if __name__ == "__main__":
         sys.exit(0)
 
     if args[0] == "--release":
+        yes = "--yes" in args
+        args = [a for a in args if a != "--yes"]
         if len(args) != 2:
-            print("Usage: python3 tools/bump_version.py --release VERSION")
+            print("Usage: python3 tools/bump_version.py --release VERSION [--yes]")
             sys.exit(1)
-        release(args[1])
+        release(args[1], yes=yes)
         sys.exit(0)
 
     dry_run = "--dry-run" in args

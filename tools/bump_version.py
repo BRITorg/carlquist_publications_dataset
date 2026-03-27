@@ -78,6 +78,73 @@ def update_json_file(path: Path, updates: dict, dry_run: bool) -> list[str]:
     return changes
 
 
+def check_csv_counts():
+    """Check actual CSV record/field counts against documented values."""
+    import csv
+    csv_path = REPO_ROOT / "carlquist_publications.csv"
+    with csv_path.open(encoding="utf-8", newline="") as f:
+        reader = csv.reader(f)
+        headers = next(reader)
+        actual_fields = len(headers)
+        actual_records = sum(1 for _ in reader)
+
+    print(f"\nChecking record/field counts (actual CSV: {actual_records} records, {actual_fields} fields)...\n")
+
+    ok = True
+
+    # dataset_metadata.json
+    meta = json.loads((REPO_ROOT / "dataset_metadata.json").read_text())
+    doc_records = meta.get("records", "?")
+    doc_fields = meta.get("fields", "?")
+    records_ok = doc_records == actual_records
+    fields_ok = doc_fields == actual_fields
+    print(f"dataset_metadata.json:  records={doc_records} {'✓' if records_ok else f'✗ (CSV has {actual_records})'}  "
+          f"fields={doc_fields} {'✓' if fields_ok else f'✗ (CSV has {actual_fields})'}")
+    if not records_ok or not fields_ok:
+        ok = False
+
+    # README.md
+    text = (REPO_ROOT / "README.md").read_text()
+    for pattern, label in [
+        (r"\((\d+) records\)", "records"),
+        (r"(\d+) standardized fields", "fields"),
+    ]:
+        matches = re.findall(pattern, text)
+        unique = set(int(m) for m in matches)
+        expected = actual_records if label == "records" else actual_fields
+        if not unique:
+            print(f"README.md:              {label} — pattern not found")
+        elif unique == {expected}:
+            print(f"README.md:              {label}={expected} ✓")
+        else:
+            print(f"README.md:              {label} ✗ — found {unique}, CSV has {expected}")
+            ok = False
+
+    # DATA_DICTIONARY.md
+    text = (REPO_ROOT / "DATA_DICTIONARY.md").read_text()
+    for pattern, label in [
+        (r"\*\*Records:\*\*\s+(\d+)", "records"),
+        (r"\*\*Fields:\*\*\s+(\d+)", "fields"),
+    ]:
+        m = re.search(pattern, text)
+        expected = actual_records if label == "records" else actual_fields
+        if not m:
+            print(f"DATA_DICTIONARY.md:     {label} — pattern not found")
+        elif int(m.group(1)) == expected:
+            print(f"DATA_DICTIONARY.md:     {label}={expected} ✓")
+        else:
+            print(f"DATA_DICTIONARY.md:     {label} ✗ — found {m.group(1)}, CSV has {expected}")
+            ok = False
+
+    print()
+    if ok:
+        print("✓ Record and field counts are consistent.")
+    else:
+        print("✗ Count mismatches found — update the files listed above.")
+
+    return ok
+
+
 def check_consistency():
     """Report current version/date values across all files."""
     print("Checking version consistency across files...\n")
@@ -138,6 +205,8 @@ def check_consistency():
         print("✓ Dates are consistent.")
     else:
         print(f"✗ DATE MISMATCH: {dates_iso}")
+
+    check_csv_counts()
 
 
 def bump(version: str, iso_date: str, dry_run: bool = False):

@@ -134,19 +134,22 @@ def add_subjects(token: str, record: dict) -> None:
     """Patch vocabulary subjects into a record using the InvenioRDM records API."""
     rec_id = record["id"]
 
-    # Step 1: Create an edit draft (InvenioRDM API)
-    # If a draft already exists this returns HTTP 409; fall back to GET.
+    # Step 1: Create an edit draft (InvenioRDM API).
+    # The POST response contains minimal metadata for legacy records, so we
+    # always follow up with a GET to retrieve the full current metadata.
     print(f"  Creating edit draft for record {rec_id}...")
     try:
-        draft = api_request(f"/records/{rec_id}/draft", method="POST", token=token)
+        api_request(f"/records/{rec_id}/draft", method="POST", token=token)
     except urllib.error.HTTPError as exc:
         if exc.code == 409:
-            print("  Draft already exists — fetching it...")
-            draft = api_request(f"/records/{rec_id}/draft", token=token)
+            print("  Draft already exists — continuing...")
         else:
             raise
 
-    # Step 2: Build updated subjects list.
+    # Step 2: GET the draft to obtain the full InvenioRDM metadata.
+    draft = api_request(f"/records/{rec_id}/draft", token=token)
+
+    # Step 3: Build updated subjects list.
     # Keep plain-text keyword subjects {"subject": "..."} unchanged.
     # Remove legacy {term, scheme, identifier} entries and old {id: "..."} entries.
     # Add our vocabulary subjects.
@@ -162,7 +165,7 @@ def add_subjects(token: str, record: dict) -> None:
         f"{len(SUBJECTS)} vocabulary subjects added."
     )
 
-    # Step 3: PUT the updated draft.
+    # Step 4: PUT the updated draft.
     # Send only metadata and custom_fields to avoid overwriting system fields.
     metadata = draft.get("metadata", {})
     metadata["subjects"] = new_subjects
@@ -172,7 +175,7 @@ def add_subjects(token: str, record: dict) -> None:
 
     api_request(f"/records/{rec_id}/draft", method="PUT", data=put_body, token=token)
 
-    # Step 4: Publish the draft.
+    # Step 5: Publish the draft.
     print("  Publishing draft...")
     api_request(f"/records/{rec_id}/draft/actions/publish", method="POST", token=token)
 

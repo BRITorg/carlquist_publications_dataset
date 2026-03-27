@@ -10,23 +10,27 @@ Subjects are set as {"id": "scheme:identifier"} — Zenodo expands these
 automatically to include the full term, scheme, and identifier metadata.
 This matches exactly what subjects added through the Zenodo UI look like.
 
-Keywords (plain-text subjects from .zenodo.json) are preserved untouched.
-Any legacy subjects in {term, scheme, identifier} format are removed.
+Records created by the GitHub integration store metadata in legacy format.
+This script reads the full metadata from the legacy deposit API, transforms
+it to InvenioRDM format, adds vocabulary subjects, and publishes the draft.
 
 Usage (manual):
-    ZENODO_TOKEN=<token> python3 tools/zenodo_add_subjects.py [--release-tag v1.1.1]
+    ZENODO_TOKEN=<token> python3 tools/zenodo_add_subjects.py
+    ZENODO_TOKEN=<token> python3 tools/zenodo_add_subjects.py --release-tag v1.2.0
     ZENODO_TOKEN=<token> python3 tools/zenodo_add_subjects.py --record-id 19264950
 
 Environment variables:
     ZENODO_TOKEN   Required. Zenodo personal access token with deposit:actions scope.
-    RELEASE_TAG    Optional. GitHub release tag to match (e.g. "v1.1.1").
+    RELEASE_TAG    Optional. GitHub release tag to match (e.g. "v1.2.0").
                    Verifies the record version matches before editing.
                    Can also be passed as --release-tag.
 
 Arguments:
-    --record-id ID    Skip polling; patch the record with this specific Zenodo
-                      record ID directly. Useful for fixing older versions or
+    --record-id ID    Target a specific Zenodo record ID directly, bypassing
+                      the polling loop. Useful for fixing older versions or
                       testing without creating a new release.
+    --debug ID        Dump the InvenioRDM draft and legacy deposit JSON for
+                      a record and exit (for troubleshooting).
 
 Exit codes:
     0  Success
@@ -62,6 +66,43 @@ ZENODO_API = "https://zenodo.org/api"
 MAX_ATTEMPTS = 10
 RETRY_DELAY = 30  # seconds between polling attempts
 
+# Maps legacy relation strings to InvenioRDM relation_type IDs
+RELATION_MAP = {
+    "isSupplementTo": "issupplementto",
+    "isPartOf": "ispartof",
+    "hasPart": "haspart",
+    "cites": "cites",
+    "isCitedBy": "iscitedby",
+    "isNewVersionOf": "isnewversionof",
+    "isPreviousVersionOf": "ispreviousversionof",
+    "isIdenticalTo": "isidenticalto",
+    "isDerivedFrom": "isderivedfrom",
+    "isSourceOf": "issourceof",
+}
+
+# Maps legacy license IDs to InvenioRDM SPDX IDs
+LICENSE_MAP = {
+    "cc-zero": "cc0-1.0",
+    "cc-by": "cc-by-4.0",
+    "cc-by-sa": "cc-by-sa-4.0",
+    "cc-by-nc": "cc-by-nc-4.0",
+    "cc-by-nc-sa": "cc-by-nc-sa-4.0",
+    "cc-by-nd": "cc-by-nd-4.0",
+}
+
+# Maps legacy contributor type strings to InvenioRDM role IDs
+ROLE_MAP = {
+    "ProjectMember": "projectmember",
+    "DataCollector": "datacollector",
+    "DataCurator": "datacurator",
+    "DataManager": "datamanager",
+    "Editor": "editor",
+    "Producer": "producer",
+    "Researcher": "researcher",
+    "Supervisor": "supervisor",
+    "Other": "other",
+}
+
 
 # ---------------------------------------------------------------------------
 # API helpers
@@ -85,8 +126,87 @@ def api_request(path: str, method: str = "GET", data: dict = None, token: str = 
             return json.loads(resp.read())
     except urllib.error.HTTPError as exc:
         body_text = exc.read().decode(errors="replace")
-        print(f"  HTTP {exc.code} {exc.reason}: {body_text[:400]}")
+        print(f"  HTTP {exc.code} {exc.reason}: {body_text[:500]}")
         raise
+
+
+# ---------------------------------------------------------------------------
+# Legacy → InvenioRDM metadata transformation
+# ---------------------------------------------------------------------------
+
+def _transform_person(person: dict) -> dict:
+    """Transform a legacy creator/contributor dict to InvenioRDM person format."""
+    name = person.get("name", "")
+    p = {"person_or_org": {"type": "personal", "name": name}}
+    if ", " in name:
+        family, given = name.split(", ", 1)
+        p["person_or_org"]["family_name"] = family
+        p["person_or_org"]["given_name"] = given
+    if "orcid" in person:
+        p["person_or_org"]["identifiers"] = [
+            {"identifier": person["orcid"], "scheme": "orcid"}
+        ]
+    if "affiliation" in person:
+        p["affiliations"] = [{"name": person["affiliation"]}]
+    return p
+
+
+def legacy_to_invenio(legacy: dict, vocabulary_subjects: list) -> dict:
+    """
+    Transform legacy deposit metadata to InvenioRDM format and attach subjects.
+
+    vocabulary_subjects: list of {"id": "scheme:id"} entries to add.
+    Keywords from legacy["keywords"] are prepended as {"subject": "..."} entries.
+    """
+    meta = {}
+
+    # Scalar fields that map directly
+    for field in ("title", "description", "publication_date", "publisher", "version"):
+        if field in legacy:
+            meta[field] = legacy[field]
+
+    # Resource type: legacy upload_type string → InvenioRDM id object
+    upload_type = legacy.get("upload_type", "dataset")
+    meta["resource_type"] = {"id": upload_type}
+
+    # Creators
+    meta["creators"] = [_transform_person(c) for c in legacy.get("creators", [])]
+
+    # Contributors
+    contributors = []
+    for c in legacy.get("contributors", []):
+        entry = _transform_person(c)
+        role_id = ROLE_MAP.get(c.get("type", "Other"), "other")
+        entry["role"] = {"id": role_id}
+        contributors.append(entry)
+    meta["contributors"] = contributors
+
+    # License → rights
+    if "license" in legacy:
+        lic_id = LICENSE_MAP.get(legacy["license"], legacy["license"])
+        meta["rights"] = [{"id": lic_id}]
+
+    # Related identifiers
+    related = []
+    for ri in legacy.get("related_identifiers", []):
+        new_ri = {
+            "identifier": ri["identifier"],
+            "scheme": ri.get("scheme", "url"),
+        }
+        if "relation" in ri:
+            rel_id = RELATION_MAP.get(ri["relation"], ri["relation"].lower())
+            new_ri["relation_type"] = {"id": rel_id}
+        if "resource_type" in ri:
+            new_ri["resource_type"] = {"id": ri["resource_type"]}
+        related.append(new_ri)
+    if related:
+        meta["related_identifiers"] = related
+
+    # Subjects: keywords as plain-text entries + vocabulary subjects
+    keyword_subjects = [{"subject": kw} for kw in legacy.get("keywords", [])]
+    meta["subjects"] = keyword_subjects + vocabulary_subjects
+
+    return meta
 
 
 # ---------------------------------------------------------------------------
@@ -99,7 +219,6 @@ def find_record(token: str, release_tag: str) -> dict:
 
     print(f"Polling Zenodo for record (concept {CONCEPT_RECID})...")
     for attempt in range(1, MAX_ATTEMPTS + 1):
-        # Use legacy deposit API to find the record ID
         deposits = api_request(
             f"/deposit/depositions?q=conceptrecid:{CONCEPT_RECID}&sort=mostrecent&size=1",
             token=token,
@@ -135,8 +254,6 @@ def add_subjects(token: str, record: dict) -> None:
     rec_id = record["id"]
 
     # Step 1: Create an edit draft (InvenioRDM API).
-    # The POST response contains minimal metadata for legacy records, so we
-    # always follow up with a GET to retrieve the full current metadata.
     print(f"  Creating edit draft for record {rec_id}...")
     try:
         api_request(f"/records/{rec_id}/draft", method="POST", token=token)
@@ -146,30 +263,25 @@ def add_subjects(token: str, record: dict) -> None:
         else:
             raise
 
-    # Step 2: GET the draft to obtain the full InvenioRDM metadata.
-    draft = api_request(f"/records/{rec_id}/draft", token=token)
+    # Step 2: Fetch full metadata from the legacy deposit API.
+    # The InvenioRDM draft for GitHub-integration records contains only minimal
+    # metadata. The legacy deposit API has the complete data (creators, keywords,
+    # license, related identifiers, etc.) populated from .zenodo.json.
+    print("  Fetching full metadata from legacy deposit API...")
+    deposit = api_request(f"/deposit/depositions/{rec_id}", token=token)
+    legacy_meta = deposit.get("metadata", {})
 
-    # Step 3: Build updated subjects list.
-    # Keep plain-text keyword subjects {"subject": "..."} unchanged.
-    # Remove legacy {term, scheme, identifier} entries and old {id: "..."} entries.
-    # Add our vocabulary subjects.
-    current_subjects = draft.get("metadata", {}).get("subjects", [])
-    keyword_subjects = [
-        s for s in current_subjects
-        if list(s.keys()) == ["subject"]  # only keep bare {"subject": "..."} entries
-    ]
-    new_subjects = keyword_subjects + SUBJECTS
-
+    # Step 3: Transform to InvenioRDM format and add vocabulary subjects.
+    invenio_meta = legacy_to_invenio(legacy_meta, SUBJECTS)
+    keyword_count = len(legacy_meta.get("keywords", []))
     print(
-        f"  Subjects: {len(keyword_subjects)} keywords preserved, "
-        f"{len(SUBJECTS)} vocabulary subjects added."
+        f"  Subjects: {keyword_count} keywords + {len(SUBJECTS)} vocabulary subjects."
     )
 
     # Step 4: PUT the updated draft.
-    # Send only metadata and custom_fields to avoid overwriting system fields.
-    metadata = draft.get("metadata", {})
-    metadata["subjects"] = new_subjects
-    put_body = {"metadata": metadata}
+    # Also preserve any existing custom_fields (e.g. code:codeRepository).
+    draft = api_request(f"/records/{rec_id}/draft", token=token)
+    put_body = {"metadata": invenio_meta}
     if "custom_fields" in draft:
         put_body["custom_fields"] = draft["custom_fields"]
 
@@ -192,14 +304,14 @@ def main() -> None:
         print("ERROR: ZENODO_TOKEN environment variable is not set.")
         sys.exit(1)
 
-    # --debug: dump the raw draft JSON for a record and exit (for troubleshooting)
+    # --debug: dump InvenioRDM draft + legacy deposit JSON for a record and exit
     if "--debug" in args:
         idx = args.index("--debug")
         if idx + 1 >= len(args):
             print("ERROR: --debug requires a record ID argument.")
             sys.exit(1)
         rec_id = args[idx + 1]
-        print(f"Creating draft for {rec_id} and dumping response...")
+        print(f"=== InvenioRDM draft for {rec_id} ===")
         try:
             api_request(f"/records/{rec_id}/draft", method="POST", token=token)
         except urllib.error.HTTPError as exc:
@@ -207,9 +319,12 @@ def main() -> None:
                 raise
         draft = api_request(f"/records/{rec_id}/draft", token=token)
         print(json.dumps(draft, indent=2))
+        print(f"\n=== Legacy deposit for {rec_id} ===")
+        deposit = api_request(f"/deposit/depositions/{rec_id}", token=token)
+        print(json.dumps(deposit, indent=2))
         return
 
-    # --record-id bypasses polling and targets a specific record directly
+    # --record-id: target a specific record directly, bypassing the polling loop
     if "--record-id" in args:
         idx = args.index("--record-id")
         if idx + 1 >= len(args):

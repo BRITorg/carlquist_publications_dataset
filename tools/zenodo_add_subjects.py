@@ -43,6 +43,9 @@ import sys
 import time
 import urllib.error
 import urllib.request
+from pathlib import Path
+
+REPO_ROOT = Path(__file__).parent.parent
 
 # ---------------------------------------------------------------------------
 # Subjects to add — edit this list to change what appears on Zenodo.

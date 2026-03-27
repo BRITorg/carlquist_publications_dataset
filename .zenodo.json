@@ -81,7 +81,12 @@
   ],
   "subjects": [
     {
-      "term": "Wood",
+      "subject": "Wood",
+      "scheme": "MeSH",
+      "id": "mesh:D014934"
+    },
+    {
+      "id": "Wood",
       "scheme": "MeSH",
       "identifier": "https://id.nlm.nih.gov/mesh/D014934"
     },

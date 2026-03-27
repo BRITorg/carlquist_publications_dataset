@@ -46,7 +46,7 @@
   "format": "text/csv",
   "encoding": "UTF-8",
   "records": 343,
-  "fields": 18,
+  "fields": 19,
   "standards": [
     "Citation Style Language (CSL-JSON)",
     "Dublin Core",
@@ -65,6 +65,7 @@
     "Publisher websites and repositories",
     "Biodiversity Heritage Library",
     "Plant Discoveries Sherwin Carlquist website",
+    "Wikidata",
     "Original publication examination"
   ],
   "related_resources": [

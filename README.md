@@ -25,7 +25,6 @@ This dataset includes the following files:
 - **Standards:** Citation Style Language (CSL-JSON), Dublin Core
 - **Records:** 343 publications
 - **Date Range:** 1956-2021
-- **Version:** 1.2
 
 ## Dataset Structure
 

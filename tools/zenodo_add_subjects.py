@@ -13,6 +13,8 @@ This matches exactly what subjects added through the Zenodo UI look like.
 Records created by the GitHub integration store metadata in legacy format.
 This script reads the full metadata from the legacy deposit API, transforms
 it to InvenioRDM format, adds vocabulary subjects, and publishes the draft.
+Fields absent from the legacy deposit (creators, keywords, etc.) are filled
+from .zenodo.json in the repository root.
 
 Usage (manual):
     ZENODO_TOKEN=<token> python3 tools/zenodo_add_subjects.py
@@ -43,6 +45,9 @@ import sys
 import time
 import urllib.error
 import urllib.request
+from pathlib import Path
+
+REPO_ROOT = Path(__file__).parent.parent
 
 # ---------------------------------------------------------------------------
 # Subjects to add — edit this list to change what appears on Zenodo.
@@ -108,6 +113,17 @@ ROLE_MAP = {
 # API helpers
 # ---------------------------------------------------------------------------
 
+def read_zenodo_json() -> dict:
+    """Read .zenodo.json from the repo root as a metadata fallback."""
+    path = REPO_ROOT / ".zenodo.json"
+    try:
+        with open(path) as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError) as exc:
+        print(f"  Warning: could not read .zenodo.json: {exc}")
+        return {}
+
+
 def api_request(path: str, method: str = "GET", data: dict = None, token: str = "") -> dict:
     """Make an authenticated Zenodo API request. Raises on HTTP errors."""
     url = f"{ZENODO_API}{path}"
@@ -151,39 +167,47 @@ def _transform_person(person: dict) -> dict:
     return p
 
 
-def legacy_to_invenio(legacy: dict, vocabulary_subjects: list) -> dict:
+def legacy_to_invenio(legacy: dict, vocabulary_subjects: list, zenodo_base: dict = None) -> dict:
     """
     Transform legacy deposit metadata to InvenioRDM format and attach subjects.
 
+    legacy: metadata dict from the legacy deposit API.
     vocabulary_subjects: list of {"id": "scheme:id"} entries to add.
-    Keywords from legacy["keywords"] are prepended as {"subject": "..."} entries.
+    zenodo_base: dict from .zenodo.json, used as fallback when legacy fields are absent.
+      Keywords from zenodo_base["keywords"] (or legacy["keywords"]) are prepended
+      as {"subject": "..."} entries before the vocabulary subjects.
     """
+    base = zenodo_base or {}
     meta = {}
 
-    # Scalar fields that map directly
+    # Scalar fields: prefer legacy deposit, fall back to .zenodo.json
     for field in ("title", "description", "publication_date", "publisher", "version"):
-        if field in legacy:
-            meta[field] = legacy[field]
+        val = legacy.get(field) or base.get(field)
+        if val:
+            meta[field] = val
 
     # Resource type: legacy upload_type string → InvenioRDM id object
-    upload_type = legacy.get("upload_type", "dataset")
+    upload_type = legacy.get("upload_type") or base.get("upload_type", "dataset")
     meta["resource_type"] = {"id": upload_type}
 
-    # Creators
-    meta["creators"] = [_transform_person(c) for c in legacy.get("creators", [])]
+    # Creators: fall back to .zenodo.json if legacy deposit has none
+    creators_src = legacy.get("creators") or base.get("creators", [])
+    meta["creators"] = [_transform_person(c) for c in creators_src]
 
-    # Contributors
+    # Contributors: fall back to .zenodo.json if legacy deposit has none
+    contributors_src = legacy.get("contributors") or base.get("contributors", [])
     contributors = []
-    for c in legacy.get("contributors", []):
+    for c in contributors_src:
         entry = _transform_person(c)
         role_id = ROLE_MAP.get(c.get("type", "Other"), "other")
         entry["role"] = {"id": role_id}
         contributors.append(entry)
     meta["contributors"] = contributors
 
-    # License → rights
-    if "license" in legacy:
-        lic_id = LICENSE_MAP.get(legacy["license"], legacy["license"])
+    # License → rights: fall back to .zenodo.json
+    license_id = legacy.get("license") or base.get("license")
+    if license_id:
+        lic_id = LICENSE_MAP.get(license_id, license_id)
         meta["rights"] = [{"id": lic_id}]
 
     # Related identifiers
@@ -193,9 +217,9 @@ def legacy_to_invenio(legacy: dict, vocabulary_subjects: list) -> dict:
             "identifier": ri["identifier"],
             "scheme": ri.get("scheme", "url"),
         }
-        if "relation" in ri:
-            rel_id = RELATION_MAP.get(ri["relation"], ri["relation"].lower())
-            new_ri["relation_type"] = {"id": rel_id}
+        # Default relation_type to issupplementto when the field is absent
+        rel_id = RELATION_MAP.get(ri.get("relation", ""), ri.get("relation", "issupplementto").lower())
+        new_ri["relation_type"] = {"id": rel_id or "issupplementto"}
         if "resource_type" in ri:
             new_ri["resource_type"] = {"id": ri["resource_type"]}
         related.append(new_ri)
@@ -203,7 +227,9 @@ def legacy_to_invenio(legacy: dict, vocabulary_subjects: list) -> dict:
         meta["related_identifiers"] = related
 
     # Subjects: keywords as plain-text entries + vocabulary subjects
-    keyword_subjects = [{"subject": kw} for kw in legacy.get("keywords", [])]
+    # Fall back to .zenodo.json keywords if legacy deposit has none
+    keywords = legacy.get("keywords") or base.get("keywords", [])
+    keyword_subjects = [{"subject": kw} for kw in keywords]
     meta["subjects"] = keyword_subjects + vocabulary_subjects
 
     return meta
@@ -265,15 +291,20 @@ def add_subjects(token: str, record: dict) -> None:
 
     # Step 2: Fetch full metadata from the legacy deposit API.
     # The InvenioRDM draft for GitHub-integration records contains only minimal
-    # metadata. The legacy deposit API has the complete data (creators, keywords,
-    # license, related identifiers, etc.) populated from .zenodo.json.
+    # metadata. The legacy deposit API may also be sparse for new releases, so
+    # .zenodo.json in the repo is used as a fallback for creators, keywords, etc.
     print("  Fetching full metadata from legacy deposit API...")
     deposit = api_request(f"/deposit/depositions/{rec_id}", token=token)
     legacy_meta = deposit.get("metadata", {})
 
+    zenodo_base = read_zenodo_json()
+    if zenodo_base:
+        print("  Loaded .zenodo.json as metadata fallback.")
+
     # Step 3: Transform to InvenioRDM format and add vocabulary subjects.
-    invenio_meta = legacy_to_invenio(legacy_meta, SUBJECTS)
-    keyword_count = len(legacy_meta.get("keywords", []))
+    invenio_meta = legacy_to_invenio(legacy_meta, SUBJECTS, zenodo_base)
+    keywords = legacy_meta.get("keywords") or zenodo_base.get("keywords", [])
+    keyword_count = len(keywords)
     print(
         f"  Subjects: {keyword_count} keywords + {len(SUBJECTS)} vocabulary subjects."
     )

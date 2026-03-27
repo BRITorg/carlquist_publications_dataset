@@ -80,34 +80,17 @@
     "botanical literature"
   ],
   "subjects": [
-    {
-      "subject": "Wood",
-      "scheme": "MeSH",
-      "id": "mesh:D014934"
-    },
-    {
-            "id": "gemet:concept/836",
-            "identifiers": [
-              {
-                "identifier": "http://www.eionet.europa.eu/gemet/concept/836",
-                "scheme": "url"
-              }
-            ],
-            "props": {
-              "groups": [
-                "http://www.eionet.europa.eu/gemet/group/7136"
-              ],
-              "parents": "gemet:concept/7472,gemet:concept/3646",
-              "themes": [
-                "http://www.eionet.europa.eu/gemet/theme/16",
-                "http://www.eionet.europa.eu/gemet/theme/30",
-                "http://www.eionet.europa.eu/gemet/theme/4"
-              ]
-            },
-            "scheme": "GEMET",
-            "subject": "Biogeography"
-          }
-  ],
+      {
+        "term": "Wood",
+        "identifier": "https://id.nlm.nih.gov/mesh/D014934",
+        "scheme": "url"
+      },
+      {
+        "term": "Biogeography",
+        "identifier": "http://www.eionet.europa.eu/gemet/concept/836",
+        "scheme": "url"
+      }
+    ],
   "license": "cc-zero",
   "publication_date": "2026-03-27"
 }

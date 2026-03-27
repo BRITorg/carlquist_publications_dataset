@@ -15,12 +15,18 @@ Any legacy subjects in {term, scheme, identifier} format are removed.
 
 Usage (manual):
     ZENODO_TOKEN=<token> python3 tools/zenodo_add_subjects.py [--release-tag v1.1.1]
+    ZENODO_TOKEN=<token> python3 tools/zenodo_add_subjects.py --record-id 19264950
 
 Environment variables:
     ZENODO_TOKEN   Required. Zenodo personal access token with deposit:actions scope.
     RELEASE_TAG    Optional. GitHub release tag to match (e.g. "v1.1.1").
                    Verifies the record version matches before editing.
                    Can also be passed as --release-tag.
+
+Arguments:
+    --record-id ID    Skip polling; patch the record with this specific Zenodo
+                      record ID directly. Useful for fixing older versions or
+                      testing without creating a new release.
 
 Exit codes:
     0  Success
@@ -176,18 +182,30 @@ def add_subjects(token: str, record: dict) -> None:
 
 
 def main() -> None:
-    # Parse --release-tag argument if provided
-    release_tag = os.environ.get("RELEASE_TAG", "")
     args = sys.argv[1:]
-    if "--release-tag" in args:
-        idx = args.index("--release-tag")
-        if idx + 1 < len(args):
-            release_tag = args[idx + 1]
 
     token = os.environ.get("ZENODO_TOKEN", "")
     if not token:
         print("ERROR: ZENODO_TOKEN environment variable is not set.")
         sys.exit(1)
+
+    # --record-id bypasses polling and targets a specific record directly
+    if "--record-id" in args:
+        idx = args.index("--record-id")
+        if idx + 1 >= len(args):
+            print("ERROR: --record-id requires a record ID argument.")
+            sys.exit(1)
+        record_id = args[idx + 1]
+        print(f"Targeting record {record_id} directly (--record-id).")
+        add_subjects(token, {"id": record_id})
+        return
+
+    # Normal flow: poll for the latest record, optionally matching a release tag
+    release_tag = os.environ.get("RELEASE_TAG", "")
+    if "--release-tag" in args:
+        idx = args.index("--release-tag")
+        if idx + 1 < len(args):
+            release_tag = args[idx + 1]
 
     record = find_record(token, release_tag)
     add_subjects(token, record)

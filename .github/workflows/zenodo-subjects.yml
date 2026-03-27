@@ -1,0 +1,28 @@
+name: Add subjects to Zenodo
+
+# Zenodo's GitHub integration creates a new deposit automatically when a
+# release is published, but it does not support the 'subjects' metadata field
+# from .zenodo.json. This action waits for Zenodo to process the release, then
+# uses the Zenodo deposit API to patch in controlled-vocabulary subjects.
+#
+# Required secret: ZENODO_TOKEN
+#   Create a Zenodo personal access token at https://zenodo.org/account/settings/applications/
+#   with deposit:actions scope, then add it as a repository secret:
+#   Settings → Secrets and variables → Actions → New repository secret
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  add-subjects:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Add subjects to Zenodo deposit
+        env:
+          ZENODO_TOKEN: ${{ secrets.ZENODO_TOKEN }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: python3 tools/zenodo_add_subjects.py --release-tag "$RELEASE_TAG"

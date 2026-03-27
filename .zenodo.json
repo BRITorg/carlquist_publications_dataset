@@ -79,22 +79,6 @@
     "extended specimen network",
     "botanical literature"
   ],
-  "custom_fields": {
-    "subjects": [
-      {
-        "id": "mesh:D001901"
-      },
-      {
-        "id": "gemet:concept/4793"
-      },
-      {
-        "id": "gemet:concept/15073"
-      },
-      {
-        "id": "gemet:concept/1700"
-      }
-    ]
-  },      
   "license": "cc-zero",
   "publication_date": "2026-03-27"
 }

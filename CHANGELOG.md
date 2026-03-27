@@ -5,6 +5,21 @@ All notable changes to this dataset will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1] - 2026-03-27
+
+### Fixed
+- Corrected field count in README.md (18 → 19 standardized fields, missed when wikidata_id was added in v1.1)
+
+### Added
+- `tools/bump_version.py`: script to update version/date across all metadata files, with `--check`, `--dry-run`, and `--release` subcommands
+- `CLAUDE.md`: project context and release checklist for use with Claude Code
+- Added `.claude/` to `.gitignore`
+- Testing alternative subject format in `.zenodo.json`
+
+### Note
+No changes were made to the dataset, only supporting metadata files.
+
+
 ## [1.1] - 2026-03-26
 
 ### Changed

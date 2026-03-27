@@ -221,8 +221,8 @@ Dataset preparation was assisted by Claude.ai (Anthropic) for data standardizati
 
 ## Version
 
-**Current Version:** 1.1
-**Released:** March 26, 2026
+**Current Version:** 1.1.1
+**Released:** March 27, 2026
 **DOI:** 10.5281/zenodo.18687469
 
 For detailed version history, see [CHANGELOG.md](CHANGELOG.md).

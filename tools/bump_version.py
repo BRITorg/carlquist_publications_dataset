@@ -315,7 +315,16 @@ def release(version: str, yes: bool = False):
         sys.exit(1)
     print(f"✓ Tag {tag} does not yet exist.")
 
-    # Run consistency check (warnings only, don't abort)
+    # Verify metadata files are already updated to this version
+    meta = json.loads((REPO_ROOT / "dataset_metadata.json").read_text())
+    actual_version = meta.get("version", "?")
+    if actual_version != version:
+        print(f"\n✗ Version mismatch: metadata files say {actual_version!r}, but releasing {version!r}.")
+        print(f"  Run: python3 tools/bump_version.py {version} YYYY-MM-DD")
+        sys.exit(1)
+    print(f"✓ Metadata files are at version {version}.")
+
+    # Run consistency check
     print()
     check_consistency()
 

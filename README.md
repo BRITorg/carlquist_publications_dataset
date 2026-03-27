@@ -29,7 +29,7 @@ This dataset includes the following files:
 
 ## Dataset Structure
 
-The CSV contains 18 standardized fields following Citation Style Language (CSL-JSON) and Dublin Core metadata conventions:
+The CSV contains 19 standardized fields following Citation Style Language (CSL-JSON) and Dublin Core metadata conventions:
 
 - **title** - Publication title (100%)
 - **container-title** - Journal or book name (95%, N/A for standalone books)

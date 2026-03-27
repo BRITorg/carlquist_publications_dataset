@@ -192,6 +192,23 @@ def main() -> None:
         print("ERROR: ZENODO_TOKEN environment variable is not set.")
         sys.exit(1)
 
+    # --debug: dump the raw draft JSON for a record and exit (for troubleshooting)
+    if "--debug" in args:
+        idx = args.index("--debug")
+        if idx + 1 >= len(args):
+            print("ERROR: --debug requires a record ID argument.")
+            sys.exit(1)
+        rec_id = args[idx + 1]
+        print(f"Creating draft for {rec_id} and dumping response...")
+        try:
+            api_request(f"/records/{rec_id}/draft", method="POST", token=token)
+        except urllib.error.HTTPError as exc:
+            if exc.code != 409:
+                raise
+        draft = api_request(f"/records/{rec_id}/draft", token=token)
+        print(json.dumps(draft, indent=2))
+        return
+
     # --record-id bypasses polling and targets a specific record directly
     if "--record-id" in args:
         idx = args.index("--record-id")

@@ -3,13 +3,15 @@
 bump_version.py - Update version and date across all metadata files.
 
 Usage:
-  python3 tools/bump_version.py NEW_VERSION DATE
-  python3 tools/bump_version.py --check
+  python3 tools/bump_version.py NEW_VERSION DATE      # bump version in all files
+  python3 tools/bump_version.py --dry-run NEW_VERSION DATE
+  python3 tools/bump_version.py --check               # verify all files are consistent
+  python3 tools/bump_version.py --release VERSION     # create git tag + GitHub release
 
 Examples:
   python3 tools/bump_version.py 1.2 2026-06-01
-  python3 tools/bump_version.py 1.2.1 2026-06-15
   python3 tools/bump_version.py --check
+  python3 tools/bump_version.py --release 1.2
 """
 
 import json
@@ -265,6 +267,113 @@ def bump(version: str, iso_date: str, dry_run: bool = False):
         print(f"  3. Commit all changes before publishing to Zenodo")
 
 
+def extract_changelog_notes(version: str) -> str | None:
+    """Extract the release notes for a given version from CHANGELOG.md."""
+    text = (REPO_ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
+    pattern = rf"## \[{re.escape(version)}\][^\n]*\n(.*?)(?=\n## \[|\Z)"
+    m = re.search(pattern, text, re.DOTALL)
+    return m.group(1).strip() if m else None
+
+
+def run(cmd: str) -> tuple[int, str]:
+    """Run a shell command, return (returncode, output)."""
+    import subprocess
+    result = subprocess.run(cmd, shell=True, capture_output=True, text=True, cwd=REPO_ROOT)
+    return result.returncode, (result.stdout + result.stderr).strip()
+
+
+def release(version: str):
+    """Create a git tag and GitHub release for the given version."""
+    tag = f"v{version}"
+
+    # 1. Pre-flight checks
+    print("Running pre-flight checks...\n")
+
+    code, out = run("git status --porcelain")
+    if out:
+        print(f"✗ Uncommitted changes detected:\n{out}")
+        print("\nCommit or stash all changes before releasing.")
+        sys.exit(1)
+    print("✓ Git working tree is clean.")
+
+    code, out = run("git rev-parse --abbrev-ref HEAD")
+    branch = out.strip()
+    if branch != "main":
+        print(f"✗ Not on main branch (currently on '{branch}').")
+        print("  Switch to main and ensure it's up to date before releasing.")
+        sys.exit(1)
+    print(f"✓ On main branch.")
+
+    # Check tag doesn't already exist
+    code, out = run(f"git tag -l {tag}")
+    if out.strip():
+        print(f"✗ Tag {tag} already exists.")
+        sys.exit(1)
+    print(f"✓ Tag {tag} does not yet exist.")
+
+    # Run consistency check (warnings only, don't abort)
+    print()
+    check_consistency()
+
+    # 2. Extract CHANGELOG notes
+    print()
+    notes = extract_changelog_notes(version)
+    if not notes:
+        print(f"WARNING: No entry found in CHANGELOG.md for version [{version}].")
+        print("  The release will be created without notes.")
+        notes = f"Version {version}"
+    else:
+        print(f"Release notes from CHANGELOG.md:\n")
+        print("-" * 40)
+        print(notes)
+        print("-" * 40)
+
+    # 3. Confirm
+    print(f"\nThis will:")
+    print(f"  1. Create annotated git tag: {tag}")
+    print(f"  2. Push tag to origin")
+    print(f"  3. Create GitHub release: {tag}")
+    answer = input("\nProceed? [y/N] ").strip().lower()
+    if answer != "y":
+        print("Aborted.")
+        sys.exit(0)
+
+    # 4. Create and push tag
+    title = f"Version {version}"
+    code, out = run(f'git tag -a {tag} -m "{title}"')
+    if code != 0:
+        print(f"✗ Failed to create tag:\n{out}")
+        sys.exit(1)
+    print(f"✓ Created tag {tag}")
+
+    code, out = run(f"git push origin {tag}")
+    if code != 0:
+        print(f"✗ Failed to push tag:\n{out}")
+        sys.exit(1)
+    print(f"✓ Pushed tag {tag} to origin")
+
+    # 5. Create GitHub release
+    import tempfile, os
+    with tempfile.NamedTemporaryFile(mode="w", suffix=".md", delete=False) as f:
+        f.write(notes)
+        notes_file = f.name
+
+    try:
+        code, out = run(f'gh release create {tag} --title "{title}" --notes-file "{notes_file}"')
+    finally:
+        os.unlink(notes_file)
+
+    if code != 0:
+        print(f"✗ Failed to create GitHub release:\n{out}")
+        sys.exit(1)
+
+    print(f"✓ GitHub release created.")
+    # Extract URL from output
+    url_match = re.search(r"https://\S+", out)
+    if url_match:
+        print(f"\n{url_match.group(0)}")
+
+
 if __name__ == "__main__":
     args = sys.argv[1:]
 
@@ -276,12 +385,20 @@ if __name__ == "__main__":
         check_consistency()
         sys.exit(0)
 
+    if args[0] == "--release":
+        if len(args) != 2:
+            print("Usage: python3 tools/bump_version.py --release VERSION")
+            sys.exit(1)
+        release(args[1])
+        sys.exit(0)
+
     dry_run = "--dry-run" in args
     args = [a for a in args if a != "--dry-run"]
 
     if len(args) != 2:
         print("Usage: python3 tools/bump_version.py NEW_VERSION DATE")
         print("       python3 tools/bump_version.py --check")
+        print("       python3 tools/bump_version.py --release VERSION")
         print("       python3 tools/bump_version.py --dry-run NEW_VERSION DATE")
         sys.exit(1)
 

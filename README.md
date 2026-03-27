@@ -49,6 +49,7 @@ The CSV contains 18 standardized fields following Citation Style Language (CSL-J
 - **DOI** - Digital Object Identifier (~40%)
 - **URL** - Web address (~60%)
 - **language** - ISO 639-1 language code (100%)
+- **wikidata_id** - Wikidata identifier (QID) for the publication (~31%)
 
 See **DATA_DICTIONARY.md** for complete field specifications.
 

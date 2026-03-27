@@ -79,18 +79,22 @@
     "extended specimen network",
     "botanical literature"
   ],
-  "subjects": [
+  "custom_fields": {
+    "subjects": [
       {
-        "term": "Wood",
-        "identifier": "https://id.nlm.nih.gov/mesh/D014934",
-        "scheme": "url"
+        "id": "mesh:D001901"
       },
       {
-        "term": "Biogeography",
-        "identifier": "http://www.eionet.europa.eu/gemet/concept/836",
-        "scheme": "url"
+        "id": "gemet:concept/4793"
+      },
+      {
+        "id": "gemet:concept/15073"
+      },
+      {
+        "id": "gemet:concept/1700"
       }
-    ],
+    ]
+  },      
   "license": "cc-zero",
   "publication_date": "2026-03-27"
 }

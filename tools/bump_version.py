@@ -290,8 +290,12 @@ def release(version: str):
     print("Running pre-flight checks...\n")
 
     code, out = run("git status --porcelain")
-    if out:
-        print(f"✗ Uncommitted changes detected:\n{out}")
+    # Ignore untracked files (??); only block on tracked changes
+    tracked_changes = [l for l in out.splitlines() if not l.startswith("??")]
+    if tracked_changes:
+        print(f"✗ Uncommitted changes to tracked files detected:")
+        for line in tracked_changes:
+            print(f"  {line}")
         print("\nCommit or stash all changes before releasing.")
         sys.exit(1)
     print("✓ Git working tree is clean.")

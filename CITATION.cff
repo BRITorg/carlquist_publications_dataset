@@ -2,7 +2,7 @@ cff-version: 1.2.0
 #message: "If you use this dataset, please cite it as below."
 type: dataset
 title: "Sherwin Carlquist Publications Dataset"
-abstract: "Comprehensive bibliographic metadata for 343 scientific publications by botanist Sherwin Carlquist (1930-2021), spanning 1956-2021. The dataset documents his contributions to plant systematics, wood anatomy, island biogeography, and evolutionary biology. Metadata follows Citation Style Language (CSL-JSON) and Dublin Core standards, with enrichment from CrossRef DOI database."
+abstract: "Comprehensive bibliographic metadata for 343 scientific publications by botanist Sherwin Carlquist (1930-2021), spanning 1956-2021. The dataset documents his contributions to plant systematics, wood anatomy, island biogeography, and evolutionary biology. Metadata follows Citation Style Language (CSL-JSON) and Dublin Core standards."
 authors:
   - family-names: "Gomez"
     given-names: "Amanda"

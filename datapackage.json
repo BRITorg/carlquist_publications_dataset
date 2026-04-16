@@ -1,0 +1,332 @@
+{
+  "name": "carlquist-publications-dataset",
+  "id": "https://doi.org/10.5281/zenodo.18687469",
+  "licenses": [
+    {
+      "name": "CC0-1.0",
+      "title": "CC0 1.0 Universal (Public Domain Dedication)",
+      "path": "https://creativecommons.org/publicdomain/zero/1.0/"
+    }
+  ],
+  "title": "Sherwin Carlquist Publications Dataset",
+  "description": "Comprehensive bibliographic metadata for 343 scientific publications by botanist Sherwin Carlquist (1930-2021), spanning his career from 1956 through his later works. Includes companion lookup tables for journals and co-authors with Wikidata identifiers.",
+  "version": "2.0",
+  "contributors": [
+    {
+      "title": "Jason H. Best",
+      "role": "author",
+      "organization": "Botanical Research Institute of Texas",
+      "path": "https://orcid.org/0000-0002-7414-5523"
+    },
+    {
+      "title": "Amanda Gomez",
+      "role": "author",
+      "organization": "Texas Christian University",
+      "path": "https://orcid.org/0009-0003-3105-735X"
+    }
+  ],
+  "keywords": [
+    "botany",
+    "bibliography",
+    "Sherwin Carlquist",
+    "wood anatomy",
+    "island biogeography",
+    "plant systematics",
+    "Compositae",
+    "Asteraceae",
+    "Wikidata",
+    "linked open data"
+  ],
+  "sources": [
+    {
+      "title": "CrossRef DOI database",
+      "path": "https://www.crossref.org/"
+    },
+    {
+      "title": "Wikidata",
+      "path": "https://www.wikidata.org/"
+    },
+    {
+      "title": "Biodiversity Heritage Library",
+      "path": "https://www.biodiversitylibrary.org/"
+    },
+    {
+      "title": "Scholarship@Claremont (Aliso journal)",
+      "path": "https://scholarship.claremont.edu/aliso/"
+    }
+  ],
+  "resources": [
+    {
+      "name": "carlquist_publications",
+      "path": "carlquist_publications.csv",
+      "title": "Carlquist Publications",
+      "description": "Main bibliographic dataset. One record per publication. All 343 publications include Sherwin Carlquist as author or co-author.",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "schema": {
+        "fields": [
+          {
+            "name": "title",
+            "title": "Title",
+            "type": "string",
+            "description": "Full title of the publication.",
+            "constraints": { "required": true }
+          },
+          {
+            "name": "container-title",
+            "title": "Container Title",
+            "type": "string",
+            "description": "Name of the journal, book, or other container in which the work appears. Empty for standalone books."
+          },
+          {
+            "name": "year",
+            "title": "Year",
+            "type": "integer",
+            "description": "Four-digit publication year.",
+            "constraints": {
+              "required": true,
+              "minimum": 1956,
+              "maximum": 2021
+            }
+          },
+          {
+            "name": "issued",
+            "title": "Issued Date",
+            "type": "string",
+            "description": "Full or partial publication date in ISO 8601 format (YYYY, YYYY-MM, or YYYY-MM-DD). Precision varies by available source information.",
+            "constraints": { "required": true }
+          },
+          {
+            "name": "author",
+            "title": "Author",
+            "type": "string",
+            "description": "Author name(s) in 'Last, First' format; multiple authors separated by semicolons. All publications include Sherwin Carlquist as author or co-author.",
+            "constraints": { "required": true }
+          },
+          {
+            "name": "editor",
+            "title": "Editor",
+            "type": "string",
+            "description": "Editor name(s) of the containing book, in 'Last, First' format, separated by semicolons. Populated only for book chapters (type=chapter)."
+          },
+          {
+            "name": "publisher",
+            "title": "Publisher",
+            "type": "string",
+            "description": "Name of the publishing organization. Required for books and book chapters; empty for journal articles."
+          },
+          {
+            "name": "volume",
+            "title": "Volume",
+            "type": "string",
+            "description": "Volume number of the journal or book series. Stored as string to accommodate non-numeric designations."
+          },
+          {
+            "name": "issue",
+            "title": "Issue",
+            "type": "string",
+            "description": "Issue or part number within a volume. Stored as string to accommodate non-numeric designations."
+          },
+          {
+            "name": "page",
+            "title": "Page Range",
+            "type": "string",
+            "description": "Page range (e.g. '226-239') or single page number. Empty for complete books."
+          },
+          {
+            "name": "type",
+            "title": "Publication Type",
+            "type": "string",
+            "description": "Publication type following CSL-JSON controlled vocabulary.",
+            "constraints": {
+              "required": true,
+              "enum": ["article-journal", "book", "chapter"]
+            }
+          },
+          {
+            "name": "container-ISSN",
+            "title": "Container ISSN",
+            "type": "string",
+            "description": "Print International Standard Serial Number for the containing journal. Format: ####-####.",
+            "constraints": {
+              "pattern": "^\\d{4}-\\d{3}[\\dX]$"
+            }
+          },
+          {
+            "name": "container-eISSN",
+            "title": "Container eISSN",
+            "type": "string",
+            "description": "Electronic International Standard Serial Number for the containing journal. Format: ####-####.",
+            "constraints": {
+              "pattern": "^\\d{4}-\\d{3}[\\dX]$"
+            }
+          },
+          {
+            "name": "container-ISBN",
+            "title": "Container ISBN",
+            "type": "string",
+            "description": "International Standard Book Number for the containing book. Applies to book chapters; may be 10 or 13 digits."
+          },
+          {
+            "name": "container-OCLC-number",
+            "title": "Container OCLC Number",
+            "type": "string",
+            "description": "OCLC WorldCat control number for the containing book. Useful for library catalog lookups."
+          },
+          {
+            "name": "DOI",
+            "title": "DOI",
+            "type": "string",
+            "description": "Digital Object Identifier. Format: 10.####/suffix. Coverage is approximately 40%; stronger for post-2000 publications."
+          },
+          {
+            "name": "wikidata-id",
+            "title": "Wikidata ID",
+            "type": "string",
+            "description": "Wikidata QID for this publication item. Format: Q followed by digits. Use to construct URL: https://www.wikidata.org/wiki/{wikidata-id}.",
+            "constraints": {
+              "pattern": "^Q\\d+$"
+            }
+          },
+          {
+            "name": "URL",
+            "title": "URL",
+            "type": "string",
+            "description": "Web address for accessing the publication. May include JSTOR, publisher, BHL, or institutional repository links.",
+            "format": "uri"
+          },
+          {
+            "name": "language",
+            "title": "Language",
+            "type": "string",
+            "description": "Language of the publication as an ISO 639-1 two-letter code. All publications in this dataset are in English.",
+            "constraints": {
+              "required": true,
+              "enum": ["en"]
+            }
+          }
+        ],
+        "primaryKey": ["title", "year", "author"],
+        "foreignKeys": [
+          {
+            "fields": ["container-ISSN"],
+            "reference": {
+              "resource": "carlquist_journals",
+              "fields": ["ISSN"]
+            }
+          },
+          {
+            "fields": ["container-eISSN"],
+            "reference": {
+              "resource": "carlquist_journals",
+              "fields": ["eISSN"]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "carlquist_journals",
+      "path": "carlquist_journals.csv",
+      "title": "Carlquist Journals",
+      "description": "Lookup table of all journals represented in the publications dataset, with Wikidata identifiers and ISSN values.",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "schema": {
+        "fields": [
+          {
+            "name": "journal-title",
+            "title": "Journal Title",
+            "type": "string",
+            "description": "Full journal title.",
+            "constraints": { "required": true, "unique": true }
+          },
+          {
+            "name": "wikidata-url",
+            "title": "Wikidata URL",
+            "type": "string",
+            "description": "Full URL to the Wikidata item for this journal.",
+            "format": "uri"
+          },
+          {
+            "name": "wikidata-id",
+            "title": "Wikidata ID",
+            "type": "string",
+            "description": "Wikidata QID for this journal item. Format: Q followed by digits.",
+            "constraints": {
+              "pattern": "^Q\\d+$"
+            }
+          },
+          {
+            "name": "ISSN",
+            "title": "ISSN",
+            "type": "string",
+            "description": "Print International Standard Serial Number. Format: ####-####.",
+            "constraints": {
+              "pattern": "^\\d{4}-\\d{3}[\\dX]$"
+            }
+          },
+          {
+            "name": "eISSN",
+            "title": "eISSN",
+            "type": "string",
+            "description": "Electronic International Standard Serial Number. Format: ####-####.",
+            "constraints": {
+              "pattern": "^\\d{4}-\\d{3}[\\dX]$"
+            }
+          }
+        ],
+        "primaryKey": ["journal-title"]
+      }
+    },
+    {
+      "name": "carlquist_authors",
+      "path": "carlquist_authors.csv",
+      "title": "Carlquist Co-Authors",
+      "description": "Lookup table of all co-authors appearing in the publications dataset, with name variants and Wikidata identifiers.",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "schema": {
+        "fields": [
+          {
+            "name": "author",
+            "title": "Author (as cited)",
+            "type": "string",
+            "description": "Author name exactly as it appears in the publications CSV, in 'Last, First' format.",
+            "constraints": { "required": true }
+          },
+          {
+            "name": "author-full",
+            "title": "Author Full Name",
+            "type": "string",
+            "description": "Expanded author name with full or more complete given name where known.",
+            "constraints": { "required": true }
+          },
+          {
+            "name": "author-full-reconciled",
+            "title": "Author Full Name (Reconciled)",
+            "type": "string",
+            "description": "Canonical author name as reconciled against Wikidata or authoritative sources.",
+            "constraints": { "required": true }
+          },
+          {
+            "name": "wikidata-url",
+            "title": "Wikidata URL",
+            "type": "string",
+            "description": "Full URL to the Wikidata item for this person.",
+            "format": "uri"
+          },
+          {
+            "name": "wikidata-id",
+            "title": "Wikidata ID",
+            "type": "string",
+            "description": "Wikidata QID for this person. Format: Q followed by digits. Multiple rows may share a QID when the same person is cited under variant name forms.",
+            "constraints": {
+              "pattern": "^Q\\d+$"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -3,16 +3,19 @@
 ## Overview
 This dataset contains bibliographic metadata for 343 scientific publications by botanist Sherwin Carlquist, spanning his career from 1956 through his later works. The dataset follows Citation Style Language (CSL) and Dublin Core metadata standards.
 
-**Version:** 1.1.6
-**Last Updated:** March 27, 2026
+**Version:** 2.0
+**Last Updated:** April 17, 2026
 **Encoding:** UTF-8  
 **Format:** CSV (Comma-Separated Values)  
-**Records:** 343 publications  
-**Fields:** 19
+**Files:** 3 (carlquist_publications.csv, carlquist_journals.csv, carlquist_authors.csv)  
+**Records:** 343 publications; 48 journals; 73 co-authors  
+**Fields:** 20 (carlquist_publications.csv)
 
 ## Field Definitions
 
-### title
+### carlquist_publications.csv
+
+##### title
 - **Description:** Full title of the publication
 - **Data Type:** String (text)
 - **Required:** Yes
@@ -20,7 +23,7 @@ This dataset contains bibliographic metadata for 343 scientific publications by 
 - **CSL Mapping:** `title`
 - **Dublin Core:** `dc:title`
 
-### container-title
+#### container-title
 - **Description:** Name of the journal, book, or other container publication in which the work appears
 - **Data Type:** String (text)
 - **Required:** For journal articles and book chapters
@@ -29,7 +32,7 @@ This dataset contains bibliographic metadata for 343 scientific publications by 
 - **Dublin Core:** `dc:source`
 - **Notes:** Empty for standalone books and monographs
 
-### year
+#### year
 - **Description:** Four-digit publication year
 - **Data Type:** Integer (YYYY format)
 - **Required:** Yes
@@ -38,7 +41,7 @@ This dataset contains bibliographic metadata for 343 scientific publications by 
 - **CSL Mapping:** Part of `issued` date
 - **Dublin Core:** `dc:date`
 
-### issued
+#### issued
 - **Description:** Full or partial publication date in ISO 8601 format
 - **Data Type:** String (date)
 - **Required:** Yes
@@ -48,7 +51,7 @@ This dataset contains bibliographic metadata for 343 scientific publications by 
 - **Dublin Core:** `dc:date`
 - **Notes:** Precision varies by available source information
 
-### author
+#### author
 - **Description:** Author name(s) in "Last, First" format; multiple authors separated by semicolons
 - **Data Type:** String (text)
 - **Required:** Yes
@@ -58,7 +61,7 @@ This dataset contains bibliographic metadata for 343 scientific publications by 
 - **Dublin Core:** `dc:creator`
 - **Notes:** All publications in this dataset include Sherwin Carlquist as author or co-author
 
-### editor
+#### editor
 - **Description:** Editor name(s) of the book (for book chapters only)
 - **Data Type:** String (text)
 - **Required:** For book chapters when applicable
@@ -68,7 +71,7 @@ This dataset contains bibliographic metadata for 343 scientific publications by 
 - **Dublin Core:** `dc:contributor`
 - **Notes:** Only populated for book chapters (type = chapter); empty for journal articles and standalone books
 
-### publisher
+#### publisher
 - **Description:** Name of the publishing organization
 - **Data Type:** String (text)
 - **Required:** For books and book chapters
@@ -77,7 +80,7 @@ This dataset contains bibliographic metadata for 343 scientific publications by 
 - **Dublin Core:** `dc:publisher`
 - **Notes:** Empty for journal articles unless specifically noted
 
-### volume
+#### volume
 - **Description:** Volume number of the journal or book series
 - **Data Type:** String (may include non-numeric characters)
 - **Required:** For journal articles with volume numbers
@@ -85,7 +88,7 @@ This dataset contains bibliographic metadata for 343 scientific publications by 
 - **CSL Mapping:** `volume`
 - **Notes:** Empty for publications without volume designation
 
-### issue
+#### issue
 - **Description:** Issue or part number within a volume
 - **Data Type:** String (may include non-numeric characters)
 - **Required:** When applicable
@@ -93,7 +96,7 @@ This dataset contains bibliographic metadata for 343 scientific publications by 
 - **CSL Mapping:** `issue`
 - **Notes:** Empty for books and publications without issue numbers
 
-### page
+#### page
 - **Description:** Page range or page numbers
 - **Data Type:** String
 - **Required:** For journal articles and book chapters
@@ -102,7 +105,7 @@ This dataset contains bibliographic metadata for 343 scientific publications by 
 - **CSL Mapping:** `page`
 - **Notes:** Empty for complete books
 
-### type
+#### type
 - **Description:** Publication type using controlled vocabulary
 - **Data Type:** String (controlled vocabulary)
 - **Required:** Yes
@@ -114,41 +117,41 @@ This dataset contains bibliographic metadata for 343 scientific publications by 
 - **Dublin Core:** `dc:type`
 - **Notes:** Follows CSL-JSON naming conventions
 
-### ISSN
+#### container-ISSN
 - **Description:** International Standard Serial Number for the journal (print version)
 - **Data Type:** String
 - **Required:** When available for journal publications
 - **Format:** ####-####
 - **Example:** "0067-1924", "0030-8870"
-- **CSL Mapping:** `ISSN`
+- **CSL Mapping:** `container-ISSN`
 - **Notes:** Empty for books and publications without assigned ISSN
 
-### eISSN
+#### container-eISSN
 - **Description:** Electronic International Standard Serial Number (online version)
 - **Data Type:** String
 - **Required:** When available for journal publications
 - **Format:** ####-####
 - **Example:** "1444-9862", "1534-6188"
-- **CSL Mapping:** `ISSN` (electronic variant)
+- **CSL Mapping:** `container-eISSN`
 - **Notes:** Many older publications lack eISSN
 
-### ISBN
+#### container-ISBN
 - **Description:** International Standard Book Number
 - **Data Type:** String
 - **Required:** For books and book chapters when available
 - **Format:** 10 or 13 digits (may include hyphens)
 - **Example:** "9780028443607"
-- **CSL Mapping:** `ISBN`
+- **CSL Mapping:** `container-ISBN`
 - **Notes:** Empty for journal articles
 
-### OCLC-number
+#### container-OCLC-number
 - **Description:** OCLC (WorldCat) control number for library catalog identification
 - **Data Type:** String (numeric)
 - **Required:** When available
 - **Example:** "327635", "765549"
 - **Notes:** Primarily available for books; useful for library lookups
 
-### DOI
+#### DOI
 - **Description:** Digital Object Identifier - persistent identifier for the publication
 - **Data Type:** String
 - **Required:** When available
@@ -158,7 +161,7 @@ This dataset contains bibliographic metadata for 343 scientific publications by 
 - **Dublin Core:** `dc:identifier`
 - **Notes:** Many older publications (pre-2000) lack DOIs; some DOIs added retrospectively
 
-### URL
+#### URL
 - **Description:** Web address for accessing the publication
 - **Data Type:** String (valid URL)
 - **Required:** When available
@@ -168,7 +171,7 @@ This dataset contains bibliographic metadata for 343 scientific publications by 
 - **Dublin Core:** `dc:identifier`
 - **Notes:** May include JSTOR links, publisher links, or institutional repositories; not normalized to include "https://" prefix in all cases
 
-### language
+#### language
 - **Description:** Language of the publication using ISO 639-1 codes
 - **Data Type:** String
 - **Required:** Yes
@@ -178,7 +181,7 @@ This dataset contains bibliographic metadata for 343 scientific publications by 
 - **Dublin Core:** `dc:language`
 - **Notes:** All publications in this dataset are in English
 
-### wikidata_id
+#### wikidata-id
 - **Description:** Wikidata identifier (QID) for the publication
 - **Data Type:** String
 - **Required:** When available
@@ -186,14 +189,112 @@ This dataset contains bibliographic metadata for 343 scientific publications by 
 - **Example:** "Q93973579", "Q100376810"
 - **CSL Mapping:** N/A (extension field)
 - **Dublin Core:** `dc:identifier`
-- **Notes:** Links to the Wikidata item for this publication. Obtained through OpenRefine reconciliation against Wikidata. Coverage: ~31% of records (107 of 343 publications). Can be used to construct full Wikidata URL: https://www.wikidata.org/wiki/{wikidata_id}
+- **Notes:** Links to the Wikidata item for this publication. Obtained through OpenRefine reconciliation and manual curation against Wikidata. Coverage: 100% of records (343 of 343 publications). Can be used to construct full Wikidata URL: https://www.wikidata.org/wiki/{wikidata-id}
+
+#### wikidata-url
+- **Description:** Full URL to the Wikidata item for this publication
+- **Data Type:** String (URL)
+- **Required:** When available
+- **Format:** https://www.wikidata.org/wiki/Q#####
+- **Example:** "https://www.wikidata.org/wiki/Q93973579"
+- **CSL Mapping:** N/A (extension field)
+- **Dublin Core:** `dc:identifier`
+- **Notes:** Derived from wikidata-id. Provided as a convenience field for users who prefer a directly clickable URL.
+
+---
+
+### carlquist_journals.csv
+
+Lookup table of all journals represented in the publications dataset. 48 records.
+
+#### journal-title
+- **Description:** Full journal title
+- **Data Type:** String (text)
+- **Required:** Yes
+- **Unique:** Yes
+- **Example:** "American Journal of Botany", "Aliso"
+- **Notes:** Matches values appearing in the `container-title` field of carlquist_publications.csv
+
+#### wikidata-url
+- **Description:** Full URL to the Wikidata item for this journal
+- **Data Type:** String (URL)
+- **Required:** When available
+- **Format:** https://www.wikidata.org/wiki/Q#####
+- **Example:** "https://www.wikidata.org/wiki/Q3456931"
+
+#### wikidata-id
+- **Description:** Wikidata QID for this journal
+- **Data Type:** String
+- **Required:** When available
+- **Format:** Q followed by digits
+- **Example:** "Q3456931"
+
+#### ISSN
+- **Description:** Print International Standard Serial Number for the journal
+- **Data Type:** String
+- **Required:** When available
+- **Format:** ####-####
+- **Example:** "0002-9122"
+
+#### eISSN
+- **Description:** Electronic International Standard Serial Number for the journal
+- **Data Type:** String
+- **Required:** When available
+- **Format:** ####-####
+- **Example:** "1537-2197"
+- **Notes:** Not available for all journals, particularly older publications
+
+---
+
+### carlquist_authors.csv
+
+Lookup table of all co-authors appearing in the publications dataset, with name variants and Wikidata identifiers. 73 records. Sherwin Carlquist himself is not included as he is the subject of the dataset.
+
+#### author-as-cited
+- **Description:** Author name exactly as it appears in the `author` field of carlquist_publications.csv
+- **Data Type:** String (text)
+- **Required:** Yes
+- **Format:** "Last, First" (as cited in publication)
+- **Example:** "Zona, S.", "Wilson, Carol A."
+- **Notes:** May reflect abbreviated or variant forms used in original publications
+
+#### author-full
+- **Description:** Expanded author name with full or more complete given name where known
+- **Data Type:** String (text)
+- **Required:** Yes
+- **Format:** "First Middle Last"
+- **Example:** "Scott Zona", "Carol A. Wilson"
+
+#### author-full-reconciled
+- **Description:** If the author name could be reconciled with Wikidata, the full/canonical name is included here, otherwise it is the same as `author-full`.
+- **Data Type:** String (text)
+- **Required:** Yes
+- **Notes:** Represents the preferred form of the name for identity resolution purposes
+
+#### wikidata-url
+- **Description:** Full URL to the Wikidata item for this person
+- **Data Type:** String (URL)
+- **Required:** When available
+- **Format:** https://www.wikidata.org/wiki/Q#####
+- **Example:** "https://www.wikidata.org/wiki/Q1234567"
+
+#### wikidata-id
+- **Description:** Wikidata QID for this person
+- **Data Type:** String
+- **Required:** When available
+- **Format:** Q followed by digits
+- **Example:** "Q1234567"
+- **Notes:** Multiple rows may share a QID when the same person is cited under variant name forms
+
+---
 
 ## Data Quality Notes
 
 ### Completeness
 - All records include: title, author, year, issued date, type, and language
 - DOIs are present for approximately 40% of records (varies by publication era)
-- Wikidata IDs are present for approximately 31% of records (107 publications)
+- Wikidata IDs are present for 100% of publication records (343 of 343)
+- Wikidata IDs are present for all 48 journals and a subset of the 73 co-authors
 - ISBNs and OCLC numbers primarily available for books (14 book records)
 - URLs available for many but not all publications
 
@@ -293,10 +394,19 @@ ORCID: 0009-0003-3105-735X
 
 For complete version history, see [CHANGELOG.md](CHANGELOG.md).
 
-**Current Version:** 1.1 (March 26, 2026)
+**Current Version:** 2.0 (April 17, 2026)
+
+### Version 2.0 (April 17, 2026)
+- Added two companion lookup tables: carlquist_journals.csv (48 records) and carlquist_authors.csv (73 records)
+- Added `wikidata-url` field to carlquist_publications.csv (20 fields total)
+- Renamed `ISSN` → `container-ISSN`, `eISSN` → `container-eISSN`, `ISBN` → `container-ISBN`, `OCLC-number` → `container-OCLC-number` for CSL-JSON alignment
+- Renamed `wikidata_id` → `wikidata-id` for CSL-JSON alignment
+- Removed `Wikibase editing results` column
+- Wikidata QID coverage for publications now 100% (343 of 343)
+- Added Frictionless Data descriptor (datapackage.json) covering all three CSVs
 
 ### Version 1.1 (March 26, 2026)
-- Added wikidata_id field (19 fields total)
+- Added wikidata-id field (19 fields total)
 - Wikidata identifiers added for 107 publications (~31% coverage)
 - Obtained through OpenRefine reconciliation against Wikidata
 - No changes to other field definitions or data structure

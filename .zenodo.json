@@ -1,19 +1,19 @@
 {
   "title": "Sherwin Carlquist Publications Dataset",
-  "description": "Comprehensive bibliographic metadata for 343 scientific publications by botanist Sherwin Carlquist (1930-2021), spanning 1956-2021. The dataset documents his contributions to plant systematics, wood anatomy, island biogeography, and evolutionary biology. Metadata follows Citation Style Language (CSL-JSON) and Dublin Core standards, with enrichment from CrossRef DOI database.",
+  "description": "Comprehensive bibliographic metadata for 343 scientific publications by botanist Sherwin Carlquist (1930-2021), spanning 1956-2021. The dataset documents his contributions to plant systematics, wood anatomy, island biogeography, and evolutionary biology. Metadata follows Citation Style Language (CSL-JSON) and Dublin Core standards, with enrichment from CrossRef DOI database. Includes companion lookup tables for journals and co-authors with Wikidata identifiers.",
   "upload_type": "dataset",
   "publisher": "Botanical Research Institute of Texas",
   "imprint_publisher": "Botanical Research Institute of Texas",
   "creators": [
     {
-      "name": "Gomez, Amanda",
-      "affiliation": "Texas Christian University",
-      "orcid": "0009-0003-3105-735X"
-    },
-    {
       "name": "Best, Jason H.",
       "affiliation": "Botanical Research Institute of Texas",
       "orcid": "0000-0002-7414-5523"
+    },
+    {
+      "name": "Gomez, Amanda",
+      "affiliation": "Texas Christian University",
+      "orcid": "0009-0003-3105-735X"
     }
   ],
   "contributors": [
@@ -80,5 +80,5 @@
     "botanical literature"
   ],
   "license": "cc-zero",
-  "publication_date": "2026-03-27"
+  "publication_date": "2026-04-17"
 }

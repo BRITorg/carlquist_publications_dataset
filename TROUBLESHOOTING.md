@@ -86,27 +86,4 @@ If you encounter issues not covered here:
 
 ---
 
-## Quick Reference: Import Settings for Excel
-
-| Column | Data Type |
-|--------|-----------|
-| title | Text |
-| container-title | Text |
-| year | Text (or Number) |
-| issued | **Text** (important!) |
-| author | Text |
-| editor | Text |
-| publisher | Text |
-| volume | Text |
-| issue | Text |
-| page | Text |
-| type | Text |
-| ISSN | Text |
-| eISSN | Text |
-| ISBN | Text |
-| OCLC-number | Text |
-| DOI | Text |
-| URL | Text |
-| language | Text |
-
 **Note:** While some fields contain numbers (year, volume, issue), importing them as Text prevents Excel from applying unwanted automatic formatting.

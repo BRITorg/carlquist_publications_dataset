@@ -2,16 +2,16 @@ cff-version: 1.2.0
 #message: "If you use this dataset, please cite it as below."
 type: dataset
 title: "Sherwin Carlquist Publications Dataset"
-abstract: "Comprehensive bibliographic metadata for 343 scientific publications by botanist Sherwin Carlquist (1930-2021), spanning 1956-2021. The dataset documents his contributions to plant systematics, wood anatomy, island biogeography, and evolutionary biology. Metadata follows Citation Style Language (CSL-JSON) and Dublin Core standards."
+abstract: "Comprehensive bibliographic metadata for 343 scientific publications by botanist Sherwin Carlquist (1930-2021), spanning 1956-2021. The dataset documents his contributions to plant systematics, wood anatomy, island biogeography, and evolutionary biology. Metadata follows Citation Style Language (CSL-JSON) and Dublin Core standards. Includes companion lookup tables for journals and co-authors with Wikidata identifiers."
 authors:
-  - family-names: "Gomez"
-    given-names: "Amanda"
-    orcid: "https://orcid.org/0009-0003-3105-735X"
-    affiliation: "Texas Christian University"
   - family-names: "Best"
     given-names: "Jason H."
     orcid: "https://orcid.org/0000-0002-7414-5523"
     affiliation: "Botanical Research Institute of Texas"
+  - family-names: "Gomez"
+    given-names: "Amanda"
+    orcid: "https://orcid.org/0009-0003-3105-735X"
+    affiliation: "Texas Christian University"
 contact:
   - family-names: "Best"
     given-names: "Jason H."
@@ -33,8 +33,8 @@ keywords:
 license: CC0-1.0
 publisher:
   name: "Botanical Research Institute of Texas"
-version: 1.1.6
-date-released: 2026-03-27
+version: 2.0
+date-released: 2026-04-17
 url: "https://zenodo.org/records/18687469"
 identifiers:
   - type: doi

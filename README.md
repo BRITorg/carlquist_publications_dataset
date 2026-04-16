@@ -12,10 +12,15 @@ Carlquist's work was foundational in understanding plant evolution on Pacific is
 
 This dataset includes the following files:
 
-- **carlquist_publications.csv** - Main bibliographic data in CSV format (343 records)
+- **carlquist_publications.csv** - Main bibliographic data in CSV format (343 records, 20 fields)
+- **carlquist_journals.csv** - Companion journal lookup table (48 records)
+- **carlquist_authors.csv** - Companion co-author lookup table (73 records)
+- **datapackage.json** - Frictionless Data descriptor for all three CSVs
 - **DATA_DICTIONARY.md** - Complete field definitions and metadata documentation
+- **CHANGELOG.md** - Version history
 - **README.md** - This file
 - **CITATION.cff** - Machine-readable citation format
+- **TROUBLESHOOTING.md** - Solutions for common import issues
 - **dataset_metadata.json** - Technical metadata in JSON format
 
 ## Technical Details
@@ -23,12 +28,13 @@ This dataset includes the following files:
 - **Format:** CSV (Comma-Separated Values)
 - **Encoding:** UTF-8
 - **Standards:** Citation Style Language (CSL-JSON), Dublin Core
-- **Records:** 343 publications
+- **Files:** 3 CSVs (carlquist_publications.csv, carlquist_journals.csv, carlquist_authors.csv)
+- **Records:** 343 publications; 48 journals; 73 co-authors
 - **Date Range:** 1956-2021
 
 ## Dataset Structure
 
-The CSV contains 19 standardized fields following Citation Style Language (CSL-JSON) and Dublin Core metadata conventions:
+The CSV contains 20 standardized fields following Citation Style Language (CSL-JSON) and Dublin Core metadata conventions:
 
 - **title** - Publication title (100%)
 - **container-title** - Journal or book name (95%, N/A for standalone books)
@@ -41,14 +47,15 @@ The CSV contains 19 standardized fields following Citation Style Language (CSL-J
 - **issue** - Issue number (~85% for journals)
 - **page** - Page range (~95%)
 - **type** - Publication type: article-journal, book, chapter (100%)
-- **ISSN** - Print ISSN (~80% for journals)
-- **eISSN** - Electronic ISSN (~40% for journals)
-- **ISBN** - Book identifier (100% for books)
-- **OCLC-number** - WorldCat control number (~50% for books)
+- **container-ISSN** - Print ISSN (~80% for journals)
+- **container-eISSN** - Electronic ISSN (~40% for journals)
+- **container-ISBN** - Book identifier (100% for books)
+- **container-OCLC-number** - WorldCat control number (~50% for books)
 - **DOI** - Digital Object Identifier (~40%)
+- **wikidata-id** - Wikidata identifier (QID) for the publication (100%)
+- **wikidata-url** - Full Wikidata item URL (100%)
 - **URL** - Web address (~60%)
 - **language** - ISO 639-1 language code (100%)
-- **wikidata_id** - Wikidata identifier (QID) for the publication (~31%)
 
 See **DATA_DICTIONARY.md** for complete field specifications.
 
@@ -97,8 +104,11 @@ Publications primarily address:
 - Comprehensive coverage of Carlquist's peer-reviewed publications
 - Standardized metadata following international standards (CSL-JSON, Dublin Core)
 - Enriched with DOIs, ISSNs, and persistent identifiers where available
+- 100% Wikidata QID coverage for all 343 publications
 - Language codes following ISO 639-1 standard
 - Author names standardized to "Last, First" format
+- Companion lookup tables for journals and co-authors with Wikidata identifiers
+- Frictionless Data descriptor for automated validation
 
 ### Limitations
 - DOI coverage varies by publication era (stronger for post-2000 publications)
@@ -174,8 +184,8 @@ This work has been dedicated to the public domain. You can copy, modify, distrib
 ## Contributors
 
 **Dataset Compilation and Curation:**
-- Amanda Gomez, Texas Christian University (ORCID: 0009-0003-3105-735X)
 - Jason H. Best, Botanical Research Institute of Texas (ORCID: 0000-0002-7414-5523) - *Corresponding Author*
+- Amanda Gomez, Texas Christian University (ORCID: 0009-0003-3105-735X)
 
 **Collaborative Partners:**
 - California Botanic Garden
@@ -220,8 +230,8 @@ Dataset preparation was assisted by Claude.ai (Anthropic) for data standardizati
 
 ## Version
 
-**Current Version:** 1.1.6
-**Released:** March 27, 2026
+**Current Version:** 2.0
+**Released:** April 17, 2026
 **DOI:** 10.5281/zenodo.18687469
 
 For detailed version history, see [CHANGELOG.md](CHANGELOG.md).

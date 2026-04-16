@@ -189,6 +189,13 @@
             }
           },
           {
+            "name": "wikidata-url",
+            "title": "Wikidata URL",
+            "type": "string",
+            "description": "Full URL to the Wikidata item for this publication. Constructed from wikidata-id as https://www.wikidata.org/wiki/{wikidata-id}.",
+            "format": "uri"
+          },
+          {
             "name": "URL",
             "title": "URL",
             "type": "string",
@@ -289,7 +296,7 @@
       "schema": {
         "fields": [
           {
-            "name": "author",
+            "name": "author-as-cited",
             "title": "Author (as cited)",
             "type": "string",
             "description": "Author name exactly as it appears in the publications CSV, in 'Last, First' format.",

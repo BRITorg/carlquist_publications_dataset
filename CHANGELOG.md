@@ -5,6 +5,32 @@ All notable changes to this dataset will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0] - 2026-04-17
+
+### ⚠ Breaking Changes
+- Renamed `ISSN` → `container-ISSN` in `carlquist_publications.csv` for CSL-JSON alignment
+- Renamed `eISSN` → `container-eISSN` in `carlquist_publications.csv` for CSL-JSON alignment
+- Renamed `ISBN` → `container-ISBN` in `carlquist_publications.csv` for CSL-JSON alignment
+- Renamed `OCLC-number` → `container-OCLC-number` in `carlquist_publications.csv` for CSL-JSON alignment
+- Renamed `wikidata_id` → `wikidata-id` in `carlquist_publications.csv` for CSL-JSON alignment
+- Removed `Wikibase editing results` column from `carlquist_publications.csv`
+
+### Added
+- `carlquist_journals.csv`: new companion lookup table of 48 journals represented in the dataset, with Wikidata QIDs, ISSNs, and eISSNs
+- `carlquist_authors.csv`: new companion lookup table of 73 co-authors, with name variants (`author-as-cited`, `author-full`, `author-full-reconciled`) and Wikidata QIDs
+- `wikidata-url` field added to `carlquist_publications.csv`, providing full Wikidata item URLs alongside existing `wikidata-id` QIDs
+- `datapackage.json`: Frictionless Data descriptor covering all three CSVs with field types, constraints, and foreign key relationships between publications and journals
+- Frictionless Data validation support for dataset integrity checking
+
+### Changed
+- `carlquist_publications.csv` now contains 20 standardized fields (previously 18 in v1.1)
+- Wikidata QID coverage for publications is now 100% following extensive Wikidata reconciliation work
+
+### Note
+The primary publications dataset retains all 343 records. Column renames in this version are breaking changes; consumers of v1.x will need to update field references.
+
+---
+
 ## [1.1.6] - 2026-03-27
 
 ### Changed

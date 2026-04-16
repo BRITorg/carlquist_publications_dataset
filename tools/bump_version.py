@@ -36,6 +36,7 @@ FILES = {
     },
     "dataset_metadata.json": None,  # handled separately
     ".zenodo.json": None,           # handled separately
+    "datapackage.json": None,       # handled separately
 }
 
 # Script lives in tools/, repo root is one level up
@@ -108,7 +109,7 @@ def check_csv_counts():
     # README.md
     text = (REPO_ROOT / "README.md").read_text()
     for pattern, label in [
-        (r"\((\d+) records\)", "records"),
+        (r"\((\d+) records, \d+ fields\)", "records"),
         (r"(\d+) standardized fields", "fields"),
     ]:
         matches = re.findall(pattern, text)
@@ -178,6 +179,10 @@ def check_consistency():
     data = json.loads((REPO_ROOT / ".zenodo.json").read_text())
     results[".zenodo.json"] = ("(no version field)", data.get("publication_date", "?"))
 
+    # datapackage.json
+    data = json.loads((REPO_ROOT / "datapackage.json").read_text())
+    results["datapackage.json"] = (data.get("version", "?"), "(no date field)")
+
     # Print results
     print(f"{'File':<25} {'Version':<12} {'Date'}")
     print("-" * 55)
@@ -185,9 +190,11 @@ def check_consistency():
         print(f"{fname:<25} {ver:<12} {date}")
 
     # Check consistency
-    versions = {v for f, (v, d) in results.items() if f != ".zenodo.json"}
+    versions = {v for f, (v, d) in results.items() if f not in (".zenodo.json",)}
     dates_iso = set()
     for fname, (ver, date) in results.items():
+        if fname == "datapackage.json":
+            continue
         if re.match(r"\d{4}-\d{2}-\d{2}", date):
             dates_iso.add(date)
         elif re.match(r"\w+ \d+, \d{4}", date):
@@ -245,6 +252,11 @@ def bump(version: str, iso_date: str, dry_run: bool = False):
     changes = update_json_file(path, {"publication_date": iso_date}, dry_run)
     all_changes[".zenodo.json"] = changes
 
+    # datapackage.json (version only, no date field)
+    path = REPO_ROOT / "datapackage.json"
+    changes = update_json_file(path, {"version": version}, dry_run)
+    all_changes["datapackage.json"] = changes
+
     # Print summary
     any_changes = False
     for fname, changes in all_changes.items():
@@ -263,8 +275,9 @@ def bump(version: str, iso_date: str, dry_run: bool = False):
     else:
         print(f"\nDone. Remember to:")
         print(f"  1. Add an entry to CHANGELOG.md for version {version}")
-        print(f"  2. Verify record/field counts if the CSV changed")
-        print(f"  3. Commit all changes before publishing to Zenodo")
+        print(f"  2. Run: frictionless validate datapackage.json")
+        print(f"  3. Verify record/field counts if the CSV changed")
+        print(f"  4. Commit all changes before publishing to Zenodo")
 
 
 def extract_changelog_notes(version: str) -> str | None:

@@ -6,6 +6,7 @@ Usage:
   python3 tools/bump_version.py NEW_VERSION DATE      # bump version in all files
   python3 tools/bump_version.py --dry-run NEW_VERSION DATE
   python3 tools/bump_version.py --check               # verify all files are consistent
+  python3 tools/bump_version.py --validate            # run data validation checks only
   python3 tools/bump_version.py --release VERSION     # create git tag + GitHub release
 
 Examples:
@@ -14,6 +15,7 @@ Examples:
   python3 tools/bump_version.py --release 1.2
 """
 
+import csv
 import json
 import re
 import sys
@@ -79,6 +81,123 @@ def update_json_file(path: Path, updates: dict, dry_run: bool) -> list[str]:
     if changes and not dry_run:
         path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     return changes
+
+
+def validate_data() -> tuple[bool, list[str], list[str]]:
+    """
+    Run data integrity checks on the CSVs.
+    Returns (passed, errors, warnings).
+    Errors block --release. Warnings are reported but non-blocking.
+    """
+    errors = []
+    warnings = []
+
+    # ------------------------------------------------------------------ #
+    # 1. Frictionless package validation                                   #
+    # ------------------------------------------------------------------ #
+    try:
+        from frictionless import validate as fl_validate
+        report = fl_validate(str(REPO_ROOT / "datapackage.json"))
+        if not report.valid:
+            for err in report.flatten(["rowNumber", "fieldNumber", "message"]):
+                errors.append(f"Frictionless: row {err[0]}, field {err[1]}: {err[2]}")
+    except ImportError:
+        warnings.append("frictionless package not installed — skipping package validation (pip install frictionless)")
+
+    # ------------------------------------------------------------------ #
+    # 2. Load reference data                                               #
+    # ------------------------------------------------------------------ #
+    journals_path = REPO_ROOT / "carlquist_journals.csv"
+    pubs_path = REPO_ROOT / "carlquist_publications.csv"
+
+    if not journals_path.exists():
+        errors.append("carlquist_journals.csv not found")
+        return False, errors, warnings
+    if not pubs_path.exists():
+        errors.append("carlquist_publications.csv not found")
+        return False, errors, warnings
+
+    journal_titles = set()
+    with journals_path.open(encoding="utf-8", newline="") as f:
+        for row in csv.DictReader(f):
+            title = row.get("journal-title", "").strip()
+            if title:
+                journal_titles.add(title)
+
+    # ------------------------------------------------------------------ #
+    # 3. Per-row checks on publications                                    #
+    # ------------------------------------------------------------------ #
+    issn_pattern = re.compile(r"^\d{4}-\d{3}[\dX]$")
+    qid_pattern = re.compile(r"^Q\d+$")
+    current_year = datetime.now().year
+
+    with pubs_path.open(encoding="utf-8", newline="") as f:
+        reader = csv.DictReader(f)
+        for i, row in enumerate(reader, start=2):  # row 1 = header
+            pub_type = row.get("type", "").strip()
+            container_title = row.get("container-title", "").strip()
+            wikidata_id = row.get("wikidata-id", "").strip()
+            issn = row.get("container-issn", "").strip()
+            issued = row.get("issued", "").strip()
+            title = row.get("title", f"row {i}")[:60]
+
+            # 3a. FK: article-journal container-title must exist in journals CSV
+            if pub_type == "article-journal":
+                if not container_title:
+                    errors.append(f"Row {i} ({title!r}): article-journal missing container-title")
+                elif container_title not in journal_titles:
+                    errors.append(f"Row {i} ({title!r}): container-title {container_title!r} not found in carlquist_journals.csv")
+
+            # 3b. chapter must have container-title
+            if pub_type == "chapter" and not container_title:
+                warnings.append(f"Row {i} ({title!r}): chapter missing container-title")
+
+            # 3c. wikidata-id format
+            if wikidata_id and not qid_pattern.match(wikidata_id):
+                errors.append(f"Row {i} ({title!r}): invalid wikidata-id {wikidata_id!r} (expected Q followed by digits)")
+
+            # 3d. container-issn format
+            if issn and not issn_pattern.match(issn):
+                errors.append(f"Row {i} ({title!r}): invalid container-issn {issn!r} (expected NNNN-NNNX)")
+
+            # 3e. issued year range
+            if issued:
+                try:
+                    year = int(issued[:4])
+                    if not (1950 <= year <= current_year):
+                        warnings.append(f"Row {i} ({title!r}): issued year {year} outside expected range 1950–{current_year}")
+                except ValueError:
+                    warnings.append(f"Row {i} ({title!r}): could not parse issued year from {issued!r}")
+
+    passed = len(errors) == 0
+    return passed, errors, warnings
+
+
+def print_validation_report(passed: bool, errors: list[str], warnings: list[str]):
+    """Print a formatted validation report."""
+    print("\nData validation report")
+    print("=" * 55)
+
+    if warnings:
+        print(f"\nWarnings ({len(warnings)}):")
+        for w in warnings:
+            print(f"  ⚠  {w}")
+
+    if errors:
+        print(f"\nErrors ({len(errors)}):")
+        for e in errors:
+            print(f"  ✗  {e}")
+    else:
+        print("\n✓ No errors found.")
+
+    if warnings and not errors:
+        print(f"\n✓ Validation passed with {len(warnings)} warning(s).")
+    elif passed:
+        print("\n✓ Validation passed.")
+    else:
+        print(f"\n✗ Validation failed: {len(errors)} error(s) must be resolved before release.")
+
+    print()
 
 
 def check_csv_counts():
@@ -217,6 +336,11 @@ def check_consistency():
 
     check_csv_counts()
 
+    passed, errors, warnings = validate_data()
+    print_validation_report(passed, errors, warnings)
+
+
+
 
 def bump(version: str, iso_date: str, dry_run: bool = False):
     """Update version and date across all metadata files."""
@@ -275,9 +399,16 @@ def bump(version: str, iso_date: str, dry_run: bool = False):
     else:
         print(f"\nDone. Remember to:")
         print(f"  1. Add an entry to CHANGELOG.md for version {version}")
-        print(f"  2. Run: frictionless validate datapackage.json")
+        print(f"  2. Run: python3 tools/bump_version.py --validate")
         print(f"  3. Verify record/field counts if the CSV changed")
         print(f"  4. Commit all changes before publishing to Zenodo")
+
+    # Run validation as advisory after bump (warnings only, non-blocking)
+    if not dry_run and any_changes:
+        passed, errors, warnings = validate_data()
+        print_validation_report(passed, errors, warnings)
+        if not passed:
+            print("⚠  Validation errors detected — resolve before running --release.")
 
 
 def extract_changelog_notes(version: str) -> str | None:
@@ -340,6 +471,15 @@ def release(version: str, yes: bool = False):
     # Run consistency check
     print()
     check_consistency()
+
+    # Hard validation block for release
+    print()
+    passed, errors, warnings = validate_data()
+    print_validation_report(passed, errors, warnings)
+    if not passed:
+        print("✗ Release blocked: resolve all validation errors first.")
+        sys.exit(1)
+    print("✓ Data validation passed — proceeding with release.")
 
     # 2. Extract CHANGELOG notes
     print()
@@ -413,6 +553,11 @@ if __name__ == "__main__":
     if args[0] == "--check":
         check_consistency()
         sys.exit(0)
+
+    if args[0] == "--validate":
+        passed, errors, warnings = validate_data()
+        print_validation_report(passed, errors, warnings)
+        sys.exit(0 if passed else 1)
 
     if args[0] == "--release":
         yes = "--yes" in args

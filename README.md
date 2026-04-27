@@ -34,7 +34,7 @@ This dataset includes the following files:
 
 ## Dataset Structure
 
-The CSV contains 20 standardized fields following Citation Style Language (CSL-JSON) and Dublin Core metadata conventions:
+The CSV contains 20 fields with many following Citation Style Language (CSL-JSON) and Dublin Core metadata conventions:
 
 - **title** - Publication title (100%)
 - **container-title** - Journal or book name (95%, N/A for standalone books)
@@ -74,18 +74,18 @@ For proper import instructions and solutions, see **[TROUBLESHOOTING.md](TROUBLE
 
 ## Publication Breakdown
 
-- **Journal Articles:** 329 records (~96%)
+- **Journal Articles:** 323 records (~94%)
 - **Books:** 7 records (~2%)
-- **Book Chapters:** 7 records (~2%)
+- **Book Chapters:** 13 records (~4%)
 
 ### Major Publication Venues
 
 Most frequent journals:
 - *Aliso* (journal of Rancho Santa Ana Botanic Garden, now California Botanic Garden)
+- *Botanical Journal of the Linnean Society*
 - *American Journal of Botany*
-- *Brittonia*
-- *Pacific Science*
-- *Phytomorphology*
+- *International Journal of Plant Sciences*
+- *Annals of the Missouri Botanical Garden*
 
 ### Thematic Coverage
 
@@ -119,7 +119,7 @@ Publications primarily address:
 ## Related Projects
 
 This dataset is part of the **Sherwin Carlquist Digital Extended Specimen Network**, a collaborative project between:
-- Botanical Research Institute of Texas (BRIT)
+- Botanical Research Institute of Texas (BRIT) at the Fort Worth Botanic Garden
 - California Botanic Garden
   
 ### Sherwin Carlquist Collection at BRIT

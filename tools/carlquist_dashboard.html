@@ -90,6 +90,10 @@
   td.journal { color: var(--accent); width: 220px; }
   td.authors { color: var(--muted); font-size: 12px; max-width: 280px; }
   td.type { font-size: 11px; text-transform: uppercase; color: var(--muted); width: 100px; }
+  td.wd { width: 90px; font-size: 12px; white-space: nowrap; }
+  td.wd a { color: var(--accent-3); text-decoration: none; font-weight: 500; }
+  td.wd a:hover { text-decoration: underline; }
+  td.wd .wd-id { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 11px; }
   .pager { padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); }
   .pager button { padding: 4px 10px; background: var(--card); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-size: 12px; }
   .pager button:disabled { opacity: 0.4; cursor: not-allowed; }
@@ -177,6 +181,7 @@
           <th data-sort="journal">Journal / Source</th>
           <th data-sort="authors">Authors</th>
           <th data-sort="type">Type</th>
+          <th data-sort="wikidata">Wikidata</th>
         </tr>
       </thead>
       <tbody id="tbody"></tbody>
@@ -339,6 +344,10 @@ function renderTable(rows) {
     let av, bv;
     if (sortKey === 'year') { av = a.year || 0; bv = b.year || 0; }
     else if (sortKey === 'authors') { av = fmtAuthors(a); bv = fmtAuthors(b); }
+    else if (sortKey === 'wikidata') {
+      av = a.wikidata ? parseInt(extractWdId(a.wikidata).slice(1)) || 0 : Infinity;
+      bv = b.wikidata ? parseInt(extractWdId(b.wikidata).slice(1)) || 0 : Infinity;
+    }
     else { av = (a[sortKey] || '').toLowerCase(); bv = (b[sortKey] || '').toLowerCase(); }
     if (av < bv) return dir === 'asc' ? -1 : 1;
     if (av > bv) return dir === 'asc' ? 1 : -1;
@@ -355,12 +364,16 @@ function renderTable(rows) {
     const journalCell = journalLink ? `<a href="${journalLink}" target="_blank" rel="noopener" style="color:inherit">${escapeHTML(p.journal||'')}</a>` : escapeHTML(p.journal||'');
     const cite = [p.volume && 'vol. ' + p.volume, p.issue && 'no. ' + p.issue, p.page].filter(Boolean).join(', ');
     const pillClass = p.type === 'book' ? 'book' : (p.type === 'chapter' ? 'chapter' : '');
+    const wdCell = p.wikidata
+      ? `<a href="${p.wikidata}" target="_blank" rel="noopener" title="${escapeHTML(p.wikidata)}"><span class="wd-id">${escapeHTML(extractWdId(p.wikidata))}</span></a>`
+      : '<span style="color:var(--muted)">—</span>';
     tr.innerHTML = `
       <td class="year">${p.year ?? ''}</td>
       <td class="title">${titleCell}</td>
       <td class="journal">${journalCell}${cite ? '<div style="color:var(--muted); font-size:11px;">' + escapeHTML(cite) + '</div>' : ''}</td>
       <td class="authors">${escapeHTML(fmtAuthors(p))}</td>
       <td class="type"><span class="pill ${pillClass}">${(p.type||'').replace('article-journal','article')}</span></td>
+      <td class="wd">${wdCell}</td>
     `;
     tb.appendChild(tr);
   }
@@ -382,6 +395,7 @@ function renderTable(rows) {
 }
 
 function escapeHTML(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function extractWdId(url) { const m = String(url).match(/\/(Q\d+)/); return m ? m[1] : url; }
 
 function rerender() {
   const rows = filtered();

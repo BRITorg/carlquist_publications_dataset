@@ -1,0 +1,57 @@
+Scholarly publication queries
+
+https://query-scholarly.wikidata.org
+
+https://query-scholarly.wikidata.org/#SELECT%20%3Fitem%20%3Ftitle%20%3Fdate%20%3Fdoi%20%3FjournalLabel%20WHERE%20%7B%0A%20%20%23%20Direct%20match%20within%20this%20graph%0A%20%20%3Fitem%20wdt%3AP50%20wd%3AQ2251003.%0A%0A%20%20%23%20Metadata%0A%20%20OPTIONAL%20%7B%20%3Fitem%20wdt%3AP1476%20%3Ftitle.%20%7D%0A%20%20OPTIONAL%20%7B%20%3Fitem%20wdt%3AP577%20%3Fdate.%20%7D%0A%20%20OPTIONAL%20%7B%20%3Fitem%20wdt%3AP356%20%3Fdoi.%20%7D%0A%20%20OPTIONAL%20%7B%20%3Fitem%20wdt%3AP1433%20%3Fjournal.%20%7D%0A%0A%20%20%23%20Minimal%20label%20service%20for%20journal%20names%20only%0A%20%20SERVICE%20wikibase%3Alabel%20%7B%20bd%3AserviceParam%20wikibase%3Alanguage%20%22en%22.%20%7D%0A%7D%0AORDER%20BY%20DESC%28%3Fdate%29
+
+SELECT ?item ?title ?date ?doi ?journalLabel WHERE {
+  # Direct match within this graph
+  ?item wdt:P50 wd:Q2251003.
+
+  # Metadata
+  OPTIONAL { ?item wdt:P1476 ?title. }
+  OPTIONAL { ?item wdt:P577 ?date. }
+  OPTIONAL { ?item wdt:P356 ?doi. }
+  OPTIONAL { ?item wdt:P1433 ?journal. }
+
+  # Minimal label service for journal names only
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+}
+ORDER BY DESC(?date)
+
+
+General queries (non-scholarly)
+https://query.wikidata.org/
+
+
+https://w.wiki/NnJW
+SELECT ?taxon ?taxonLabel ?taxonName ?rankLabel ?parentTaxonLabel ?pubDate WHERE {
+  ?taxon p:P225 ?nameStatement .
+  ?nameStatement ps:P225 ?taxonName ;
+                 pq:P405 wd:Q2251003 .
+  OPTIONAL { ?taxon wdt:P105 ?rank . }
+  OPTIONAL { ?taxon wdt:P171 ?parentTaxon . }
+  OPTIONAL { ?nameStatement pq:P574 ?pubDate . }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en" . }
+}
+ORDER BY ?taxonName
+
+
+with IPNI id
+
+https://w.wiki/Lyjy
+SELECT ?taxon ?taxonLabel ?taxonName ?rankLabel ?parentTaxonLabel ?pubDate ?ipniId ?pubLabel WHERE {
+  ?taxon p:P225 ?nameStatement .
+  ?nameStatement ps:P225 ?taxonName ;
+                 pq:P405 wd:Q2251003 .
+  OPTIONAL { ?taxon wdt:P105 ?rank . }
+  OPTIONAL { ?taxon wdt:P171 ?parentTaxon . }
+  OPTIONAL { ?nameStatement pq:P574 ?pubDate . }
+  OPTIONAL { ?taxon wdt:P961 ?ipniId . }
+  OPTIONAL {
+    ?nameStatement prov:wasDerivedFrom ?ref .
+    ?ref pr:P248 ?pub .
+  }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en" . }
+}
+ORDER BY ?taxonName

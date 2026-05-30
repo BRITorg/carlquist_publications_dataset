@@ -2,6 +2,7 @@ Scholarly publication queries
 
 https://query-scholarly.wikidata.org
 
+https://w.wiki/PW6H
 https://query-scholarly.wikidata.org/#SELECT%20%3Fitem%20%3Ftitle%20%3Fdate%20%3Fdoi%20%3FjournalLabel%20WHERE%20%7B%0A%20%20%23%20Direct%20match%20within%20this%20graph%0A%20%20%3Fitem%20wdt%3AP50%20wd%3AQ2251003.%0A%0A%20%20%23%20Metadata%0A%20%20OPTIONAL%20%7B%20%3Fitem%20wdt%3AP1476%20%3Ftitle.%20%7D%0A%20%20OPTIONAL%20%7B%20%3Fitem%20wdt%3AP577%20%3Fdate.%20%7D%0A%20%20OPTIONAL%20%7B%20%3Fitem%20wdt%3AP356%20%3Fdoi.%20%7D%0A%20%20OPTIONAL%20%7B%20%3Fitem%20wdt%3AP1433%20%3Fjournal.%20%7D%0A%0A%20%20%23%20Minimal%20label%20service%20for%20journal%20names%20only%0A%20%20SERVICE%20wikibase%3Alabel%20%7B%20bd%3AserviceParam%20wikibase%3Alanguage%20%22en%22.%20%7D%0A%7D%0AORDER%20BY%20DESC%28%3Fdate%29
 
 SELECT ?item ?title ?date ?doi ?journalLabel WHERE {

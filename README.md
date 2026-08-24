@@ -2,7 +2,7 @@
 
 ## Description
 
-This dataset contains comprehensive bibliographic metadata for 343 scientific publications by renowned botanist Sherwin Carlquist (1930-2021). The collection spans from 1956 through his later career and documents his extensive contributions to plant systematics, wood anatomy, island biogeography, and evolutionary biology.
+This dataset contains comprehensive bibliographic metadata for 344 scientific publications by renowned botanist Sherwin Carlquist (1930-2021). The collection spans from 1956 through his later career and documents his extensive contributions to plant systematics, wood anatomy, island biogeography, and evolutionary biology.
 
 Carlquist's work was foundational in understanding plant evolution on Pacific islands, wood anatomy across flowering plant families (particularly Compositae/Asteraceae), and the mechanisms of long-distance plant dispersal. This bibliographic compilation serves as a comprehensive record of his scholarly output and provides structured metadata for integration with botanical collections, specimen records, and digital humanities research.
 
@@ -12,7 +12,7 @@ Carlquist's work was foundational in understanding plant evolution on Pacific is
 
 This dataset includes the following files:
 
-- **carlquist_publications.csv** - Main bibliographic data in CSV format (343 records, 20 fields)
+- **carlquist_publications.csv** - Main bibliographic data in CSV format (344 records, 20 fields)
 - **carlquist_journals.csv** - Companion journal lookup table (48 records)
 - **carlquist_authors.csv** - Companion co-author lookup table (73 records)
 - **datapackage.json** - Frictionless Data descriptor for all three CSVs
@@ -29,7 +29,7 @@ This dataset includes the following files:
 - **Encoding:** UTF-8
 - **Standards:** Citation Style Language (CSL-JSON), Dublin Core
 - **Files:** 3 CSVs (carlquist_publications.csv, carlquist_journals.csv, carlquist_authors.csv)
-- **Records:** 343 publications; 48 journals; 73 co-authors
+- **Records:** 344 publications; 48 journals; 73 co-authors
 - **Date Range:** 1956-2021
 
 ## Dataset Structure
@@ -104,7 +104,7 @@ Publications primarily address:
 - Comprehensive coverage of Carlquist's peer-reviewed publications
 - Standardized metadata following international standards (CSL-JSON, Dublin Core)
 - Enriched with DOIs, ISSNs, and persistent identifiers where available
-- 100% Wikidata QID coverage for all 343 publications
+- 100% Wikidata QID coverage for all 344 publications
 - Language codes following ISO 639-1 standard
 - Author names standardized to "Last, First" format
 - Companion lookup tables for journals and co-authors with Wikidata identifiers
@@ -230,8 +230,8 @@ Dataset preparation was assisted by Claude.ai (Anthropic) for data standardizati
 
 ## Version
 
-**Current Version:** 2.0
-**Released:** April 17, 2026
+**Current Version:** 2.1
+**Released:** August 24, 2026
 **DOI:** 10.5281/zenodo.18687469
 
 For detailed version history, see [CHANGELOG.md](CHANGELOG.md).

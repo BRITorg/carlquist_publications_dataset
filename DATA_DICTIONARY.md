@@ -1,14 +1,14 @@
 # Data Dictionary: Sherwin Carlquist Publications Dataset
 
 ## Overview
-This dataset contains bibliographic metadata for 343 scientific publications by botanist Sherwin Carlquist, spanning his career from 1956 through his later works. The dataset follows Citation Style Language (CSL) and Dublin Core metadata standards.
+This dataset contains bibliographic metadata for 344 scientific publications by botanist Sherwin Carlquist, spanning his career from 1956 through his later works. The dataset follows Citation Style Language (CSL) and Dublin Core metadata standards.
 
-**Version:** 2.0
-**Last Updated:** April 17, 2026
+**Version:** 2.1
+**Last Updated:** August 24, 2026
 **Encoding:** UTF-8  
 **Format:** CSV (Comma-Separated Values)  
 **Files:** 3 (carlquist_publications.csv, carlquist_journals.csv, carlquist_authors.csv)  
-**Records:** 343 publications; 48 journals; 73 co-authors  
+**Records:** 344 publications; 48 journals; 73 co-authors  
 **Fields:** 20 (carlquist_publications.csv)
 
 ## Field Definitions
@@ -189,7 +189,7 @@ This dataset contains bibliographic metadata for 343 scientific publications by 
 - **Example:** "Q93973579", "Q100376810"
 - **CSL Mapping:** N/A (extension field)
 - **Dublin Core:** `dc:identifier`
-- **Notes:** Links to the Wikidata item for this publication. Obtained through OpenRefine reconciliation and manual curation against Wikidata. Coverage: 100% of records (343 of 343 publications). Can be used to construct full Wikidata URL: https://www.wikidata.org/wiki/{wikidata-id}
+- **Notes:** Links to the Wikidata item for this publication. Obtained through OpenRefine reconciliation and manual curation against Wikidata. Coverage: 100% of records (344 of 344 publications). Can be used to construct full Wikidata URL: https://www.wikidata.org/wiki/{wikidata-id}
 
 #### wikidata-url
 - **Description:** Full URL to the Wikidata item for this publication
@@ -293,7 +293,7 @@ Lookup table of all co-authors appearing in the publications dataset, with name 
 ### Completeness
 - All records include: title, author, year, issued date, type, and language
 - DOIs are present for approximately 40% of records (varies by publication era)
-- Wikidata IDs are present for 100% of publication records (343 of 343)
+- Wikidata IDs are present for 100% of publication records (344 of 344)
 - Wikidata IDs are present for all 48 journals and a subset of the 73 co-authors
 - ISBNs and OCLC numbers primarily available for books (14 book records)
 - URLs available for many but not all publications

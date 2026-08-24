@@ -5,6 +5,20 @@ All notable changes to this dataset will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1] - 2026-08-24
+
+### Added
+- New publication record: "Anatomy of the Guayana Mutisieae. Part II" (Carlquist,
+  Memoirs of the New York Botanical Garden, 10(1):157-184, 1958), the companion
+  piece to the existing 1957 "Anatomy of Guayana mutisieae" (Part I) record.
+  Wikidata item created (Q141167197); no changes needed to the journal or author
+  lookup tables, as both were already represented.
+
+### Changed
+- Record count updated from 343 to 344 publications throughout `README.md`,
+  `DATA_DICTIONARY.md`, `dataset_metadata.json`, `datapackage.json`,
+  `CITATION.cff`, and `.zenodo.json`.
+
 ## [2.0] - 2026-04-17
 
 ### ⚠ Breaking Changes

@@ -9,8 +9,8 @@
     }
   ],
   "title": "Sherwin Carlquist Publications Dataset",
-  "description": "Comprehensive bibliographic metadata for 343 scientific publications by botanist Sherwin Carlquist (1930-2021), spanning his career from 1956 through his later works. Includes companion lookup tables for journals and co-authors with Wikidata identifiers.",
-  "version": "2.0",
+  "description": "Comprehensive bibliographic metadata for 344 scientific publications by botanist Sherwin Carlquist (1930-2021), spanning his career from 1956 through his later works. Includes companion lookup tables for journals and co-authors with Wikidata identifiers.",
+  "version": "2.1",
   "contributors": [
     {
       "title": "Jason H. Best",
@@ -60,7 +60,7 @@
       "name": "carlquist_publications",
       "path": "carlquist_publications.csv",
       "title": "Carlquist Publications",
-      "description": "Main bibliographic dataset. One record per publication. All 343 publications include Sherwin Carlquist as author or co-author.",
+      "description": "Main bibliographic dataset. One record per publication. All 344 publications include Sherwin Carlquist as author or co-author.",
       "mediatype": "text/csv",
       "encoding": "utf-8",
       "schema": {
@@ -70,7 +70,9 @@
             "title": "Title",
             "type": "string",
             "description": "Full title of the publication.",
-            "constraints": { "required": true }
+            "constraints": {
+              "required": true
+            }
           },
           {
             "name": "container-title",
@@ -94,14 +96,18 @@
             "title": "Issued Date",
             "type": "string",
             "description": "Full or partial publication date in ISO 8601 format (YYYY, YYYY-MM, or YYYY-MM-DD). Precision varies by available source information.",
-            "constraints": { "required": true }
+            "constraints": {
+              "required": true
+            }
           },
           {
             "name": "author",
             "title": "Author",
             "type": "string",
             "description": "Author name(s) in 'Last, First' format; multiple authors separated by semicolons. All publications include Sherwin Carlquist as author or co-author.",
-            "constraints": { "required": true }
+            "constraints": {
+              "required": true
+            }
           },
           {
             "name": "editor",
@@ -140,7 +146,11 @@
             "description": "Publication type following CSL-JSON controlled vocabulary.",
             "constraints": {
               "required": true,
-              "enum": ["article-journal", "book", "chapter"]
+              "enum": [
+                "article-journal",
+                "book",
+                "chapter"
+              ]
             }
           },
           {
@@ -209,24 +219,38 @@
             "description": "Language of the publication as an ISO 639-1 two-letter code. All publications in this dataset are in English.",
             "constraints": {
               "required": true,
-              "enum": ["en"]
+              "enum": [
+                "en"
+              ]
             }
           }
         ],
-        "primaryKey": ["title", "year", "author"],
+        "primaryKey": [
+          "title",
+          "year",
+          "author"
+        ],
         "foreignKeys": [
           {
-            "fields": ["container-ISSN"],
+            "fields": [
+              "container-ISSN"
+            ],
             "reference": {
               "resource": "carlquist_journals",
-              "fields": ["ISSN"]
+              "fields": [
+                "ISSN"
+              ]
             }
           },
           {
-            "fields": ["container-eISSN"],
+            "fields": [
+              "container-eISSN"
+            ],
             "reference": {
               "resource": "carlquist_journals",
-              "fields": ["eISSN"]
+              "fields": [
+                "eISSN"
+              ]
             }
           }
         ]
@@ -246,7 +270,10 @@
             "title": "Journal Title",
             "type": "string",
             "description": "Full journal title.",
-            "constraints": { "required": true, "unique": true }
+            "constraints": {
+              "required": true,
+              "unique": true
+            }
           },
           {
             "name": "wikidata-url",
@@ -283,7 +310,9 @@
             }
           }
         ],
-        "primaryKey": ["journal-title"]
+        "primaryKey": [
+          "journal-title"
+        ]
       }
     },
     {
@@ -300,21 +329,27 @@
             "title": "Author (as cited)",
             "type": "string",
             "description": "Author name exactly as it appears in the publications CSV, in 'Last, First' format.",
-            "constraints": { "required": true }
+            "constraints": {
+              "required": true
+            }
           },
           {
             "name": "author-full",
             "title": "Author Full Name",
             "type": "string",
             "description": "Expanded author name with full or more complete given name where known.",
-            "constraints": { "required": true }
+            "constraints": {
+              "required": true
+            }
           },
           {
             "name": "author-full-reconciled",
             "title": "Author Full Name (Reconciled)",
             "type": "string",
             "description": "Canonical author name as reconciled against Wikidata or authoritative sources.",
-            "constraints": { "required": true }
+            "constraints": {
+              "required": true
+            }
           },
           {
             "name": "wikidata-url",

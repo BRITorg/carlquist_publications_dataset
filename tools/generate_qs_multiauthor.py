@@ -8,95 +8,34 @@ with multiple authors that do not yet have Wikidata items.
 Filters:
   - type == "article-journal"
   - wikidata-id is empty (not yet in Wikidata)
-  - author count > 1 (single-author articles handled via OpenRefine)
+  - author count > 1 (single-author articles are handled via OpenRefine, or via
+    add_publication.py for one-off additions)
 
 Lookups:
-  - carlquist_journals.csv  : "journal-title" → "wikidata-id"
-  - carlquist_authors.csv   : "author"        → "wikidata-id"
+  - carlquist_journals.csv  : "journal-title" -> "wikidata-id"
+  - carlquist_authors.csv   : "author-as-cited" -> "wikidata-id"
 
 Output:
   - QuickStatements v1 tab-separated format, printed to stdout
   - Warnings printed to stderr
 """
 
-import csv
 import sys
-import re
 from pathlib import Path
+
+from qs_common import load_journals, load_authors, build_create_block
 
 # ---------------------------------------------------------------------------
 # File paths — adjust if needed
 # ---------------------------------------------------------------------------
 PUBLICATIONS_CSV = "../carlquist_publications.csv"
-JOURNALS_CSV     = "../carlquist_journals.csv"
-AUTHORS_CSV      = "../carlquist_authors.csv"
-
-# ---------------------------------------------------------------------------
-# Constants
-# ---------------------------------------------------------------------------
-CARLQUIST_QID = "Q2251003"
-SCHOLARLY_ARTICLE_QID = "Q13442814"
-
-
-def load_journals(path: str) -> dict:
-    """Return dict mapping journal title → Wikidata QID."""
-    journals = {}
-    with open(path, newline="", encoding="utf-8") as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            title = row["journal-title"].strip()
-            qid   = row["wikidata-id"].strip()
-            if title and qid:
-                journals[title] = qid
-    return journals
-
-
-def load_authors(path: str) -> dict:
-    """Return dict mapping author name → Wikidata QID (may be empty string)."""
-    authors = {}
-    with open(path, newline="", encoding="utf-8") as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            name = row["author"].strip()
-            qid  = row["wikidata-id"].strip()
-            authors[name] = qid  # empty string if no QID
-    return authors
-
-
-def format_date(issued: str) -> str:
-    """
-    Convert issued string to QuickStatements time format with precision.
-      YYYY         → +YYYY-00-00T00:00:00Z/9
-      YYYY-MM      → +YYYY-MM-00T00:00:00Z/10
-      YYYY-MM-DD   → +YYYY-MM-DDT00:00:00Z/11
-    Returns empty string if value cannot be parsed.
-    """
-    issued = issued.strip()
-    if re.fullmatch(r"\d{4}", issued):
-        return f"+{issued}-00-00T00:00:00Z/9"
-    elif re.fullmatch(r"\d{4}-\d{2}", issued):
-        return f"+{issued}-00T00:00:00Z/10"
-    elif re.fullmatch(r"\d{4}-\d{2}-\d{2}", issued):
-        return f"+{issued}T00:00:00Z/11"
-    else:
-        print(f"WARNING: Could not parse issued date: {issued!r}", file=sys.stderr)
-        return ""
-
-
-def emit_statement(subject: str, prop: str, value: str, qualifiers: list = None) -> str:
-    """
-    Build a single QuickStatements tab-separated line.
-    qualifiers: list of (prop, value) tuples
-    """
-    parts = [subject, prop, value]
-    if qualifiers:
-        for qprop, qval in qualifiers:
-            parts += [qprop, qval]
-    return "\t".join(parts)
+JOURNALS_CSV = "../carlquist_journals.csv"
+AUTHORS_CSV = "../carlquist_authors.csv"
 
 
 def generate_qs(pub_path: str, journals: dict, authors: dict) -> None:
     """Main generation loop — writes QS to stdout."""
+    import csv
 
     with open(pub_path, newline="", encoding="utf-8") as f:
         reader = csv.DictReader(f)
@@ -122,84 +61,16 @@ def generate_qs(pub_path: str, journals: dict, authors: dict) -> None:
             skip_single += 1
             continue
 
-        # --- Journal lookup ---
-        journal_name = row.get("container-title", "").strip()
-        journal_qid  = journals.get(journal_name, "")
-        if not journal_qid:
-            print(f"WARNING: No QID for journal: {journal_name!r} "
+        if not journals.get(row.get("container-title", "").strip()):
+            print(f"WARNING: No QID for journal: {row.get('container-title','').strip()!r} "
                   f"(title: {row.get('title','').strip()[:60]})", file=sys.stderr)
             skip_no_journal += 1
             continue
 
-        # --- Date ---
-        issued_raw  = row.get("issued", "").strip()
-        issued_qs   = format_date(issued_raw) if issued_raw else ""
-        year        = row.get("year", "").strip()
-        description = f"scientific article published in {year}" if year else "scientific article"
-
-        title    = row.get("title", "").strip()
-        language = row.get("language", "en").strip() or "en"
-        doi      = row.get("DOI", "").strip()
-        volume   = row.get("volume", "").strip()
-        issue    = row.get("issue", "").strip()
-        page     = row.get("page", "").strip()
-
-        # --- Emit block ---
-        print("CREATE")
-
-        # Label
-        print(emit_statement("LAST", f"L{language}", f'"{title}"'))
-
-        # Description (English)
-        print(emit_statement("LAST", "Den", f'"{description}"'))
-
-        # P31 instance of scholarly article
-        print(emit_statement("LAST", "P31", SCHOLARLY_ARTICLE_QID))
-
-        # P1433 published in
-        print(emit_statement("LAST", "P1433", journal_qid))
-
-        # P577 publication date
-        if issued_qs:
-            print(emit_statement("LAST", "P577", issued_qs))
-
-        # P356 DOI
-        if doi:
-            print(emit_statement("LAST", "P356", f'"{doi}"'))
-
-        # P478 volume
-        if volume:
-            print(emit_statement("LAST", "P478", f'"{volume}"'))
-
-        # P433 issue
-        if issue:
-            print(emit_statement("LAST", "P433", f'"{issue}"'))
-
-        # P304 page(s)
-        if page:
-            print(emit_statement("LAST", "P304", f'"{page}"'))
-
-        # P50 / P2093 authors with P1545 ordinal
-        for i, author_name in enumerate(raw_authors, start=1):
-            ordinal = str(i)
-            author_qid = authors.get(author_name, "")
-            if author_qid:
-                # Known Wikidata item — P50 with QID
-                print(emit_statement(
-                    "LAST", "P50", author_qid,
-                    qualifiers=[("P1545", f'"{ordinal}"')]
-                ))
-            else:
-                # No Wikidata item — P2093 with name string
-                print(emit_statement(
-                    "LAST", "P2093", f'"{author_name}"',
-                    qualifiers=[("P1545", f'"{ordinal}"')]
-                ))
-                if author_name not in authors:
-                    print(f"WARNING: Author not found in lookup: {author_name!r}", file=sys.stderr)
-
-        # Blank line between items for readability
-        print()
+        lines, warnings = build_create_block(row, journals, authors)
+        for w in warnings:
+            print(f"WARNING: {w} (title: {row.get('title','').strip()[:60]})", file=sys.stderr)
+        print("\n".join(lines))
         item_count += 1
 
     # --- Summary ---
@@ -211,14 +82,13 @@ def generate_qs(pub_path: str, journals: dict, authors: dict) -> None:
 
 
 def main():
-    # Verify files exist
     for path in [PUBLICATIONS_CSV, JOURNALS_CSV, AUTHORS_CSV]:
         if not Path(path).exists():
             print(f"ERROR: File not found: {path}", file=sys.stderr)
             sys.exit(1)
 
     journals = load_journals(JOURNALS_CSV)
-    authors  = load_authors(AUTHORS_CSV)
+    authors = load_authors(AUTHORS_CSV)
     generate_qs(PUBLICATIONS_CSV, journals, authors)
 
 

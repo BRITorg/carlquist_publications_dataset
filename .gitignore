@@ -4,3 +4,7 @@ VERSION_TODO.md
 
 # Claude Code internal files
 .claude/
+
+# Python virtual environment (for frictionless validation)
+.venv/
+__pycache__/

@@ -229,7 +229,7 @@ def check_csv_counts():
     text = (REPO_ROOT / "README.md").read_text()
     for pattern, label in [
         (r"\((\d+) records, \d+ fields\)", "records"),
-        (r"(\d+) standardized fields", "fields"),
+        (r"[Cc]ontains (\d+) fields", "fields"),
     ]:
         matches = re.findall(pattern, text)
         unique = set(int(m) for m in matches)

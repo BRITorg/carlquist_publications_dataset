@@ -85,4 +85,12 @@ python3 tools/bump_version.py --check
 source .venv/bin/activate && frictionless validate datapackage.json
 ```
 
-Both must pass clean. Then commit.
+Both must pass clean. Then commit and push.
+
+### 9. Publish the release (if this is going out to Zenodo now)
+
+Adding a record to the CSV doesn't by itself publish anything — Zenodo only gets a
+new version when a GitHub Release is published. See the "Publishing the release"
+section in `CLAUDE.md` for the tag + release steps and what happens automatically
+after (Zenodo deposit creation, then the subjects-patching GitHub Action). This is
+a public, hard-to-reverse step — only do it with the user's explicit go-ahead.

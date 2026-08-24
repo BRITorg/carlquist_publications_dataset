@@ -58,19 +58,47 @@ Use `bump_version.py` to handle steps 2–3 automatically.
    - Patch (1.1 → 1.1.1): corrections, metadata fixes, no structural changes
    - Minor (1.1 → 1.2): new fields, significant data additions, new records
    - Major (1.x → 2.0): breaking structural changes
-2. Run: `python3 bump_version.py NEW_VERSION YYYY-MM-DD`
+2. Run: `python3 tools/bump_version.py NEW_VERSION YYYY-MM-DD`
 3. Verify the changes look correct across all files
 4. Add a detailed entry to `CHANGELOG.md` under the new version heading
 
 ### Before publishing to Zenodo:
-- [ ] All version-tracked fields are consistent (run `python3 bump_version.py --check`)
+- [ ] All version-tracked fields are consistent (run `python3 tools/bump_version.py --check`)
 - [ ] `frictionless validate datapackage.json` passes with no errors
 - [ ] `CHANGELOG.md` has an entry for this version with meaningful descriptions
 - [ ] Record count in `README.md`, `DATA_DICTIONARY.md`, `dataset_metadata.json` matches CSV row count
 - [ ] Field count in `README.md`, `DATA_DICTIONARY.md`, `dataset_metadata.json` matches CSV column count
 - [ ] `.zenodo.json` has the correct `publication_date`
 - [ ] `datapackage.json` version and resource schemas are current
-- [ ] Git is clean (all changes committed)
+- [ ] Git is clean (all changes committed and pushed to `main`)
+
+### Publishing the release (triggers the Zenodo deposit):
+
+A GitHub Release — not just a git tag — is what triggers Zenodo's GitHub integration
+to mint a new version under the concept DOI (10.5281/zenodo.18687469). Creating a
+release is a public, essentially irreversible action and should only be done with
+the user's explicit go-ahead.
+
+1. Tag the release commit and push the tag:
+   ```
+   git tag -a vNEW_VERSION -m "Version NEW_VERSION" COMMIT_SHA
+   git push origin vNEW_VERSION
+   ```
+2. Create the GitHub Release from that tag — via `gh release create vNEW_VERSION
+   --title "Version NEW_VERSION" --notes "..."` (paste the CHANGELOG entry as
+   notes) if `gh` is installed and authenticated, otherwise manually at
+   `https://github.com/BRITorg/carlquist_publications_dataset/releases/new`
+   (select the existing tag, don't create a new one; keep "Set as the latest
+   release" checked).
+3. Publishing the release triggers, automatically and in order:
+   - Zenodo's GitHub integration creates the new deposit version
+   - `.github/workflows/zenodo-subjects.yml` (on `release: published`) polls for
+     that record and patches in the `subjects` vocabulary metadata that Zenodo's
+     native integration doesn't support, via `tools/zenodo_add_subjects.py`
+     (requires the `ZENODO_TOKEN` repo secret)
+4. Verify afterward: check the Actions tab for a successful "Add subjects to
+   Zenodo" run, and check the Zenodo record itself for the new version and
+   correct metadata.
 
 ## Data Structure Notes
 

@@ -5,6 +5,87 @@ All notable changes to this dataset will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2] - 2026-09-16
+
+Changes in this version came out of an independent reconciliation: a separate
+publication list was compiled from OpenAlex, Crossref and Carlquist's own curated
+bibliography (recovered from an Internet Archive snapshot of his now-parked
+website), then matched record-for-record against v2.1. 343 of the 344 v2.1 records
+matched; the differences are resolved below.
+
+### Added
+- Three publication records, each verified against Crossref (title, journal,
+  volume, issue, pages, date, byline) rather than from a secondary citation:
+  - "Vessels in Ferns: Structural, Ecological, and Evolutionary Significance"
+    (Carlquist & Schneider, *American Journal of Botany* 88(1):1-13, 2001).
+    A Wikidata item already existed (Q46126499) and was enriched rather than
+    duplicated; its DOI was wrong (`10.1006/ANBO.2001.1430`, which belongs to a
+    different paper in *Annals of Botany* sharing the volume and issue number) and
+    is now deprecated in favour of `10.2307/2657121`.
+  - "Terminology of Imperforate Tracheary Elements: A Reply" (Carlquist,
+    *IAWA Bulletin* 7(2):168-170, 1986; Q141485296). Distinct from the existing
+    7(1):75-81 record it replies to.
+  - "Vestured Pits in Echium (Boraginaceae): Island Woodiness Revisited"
+    (Carlquist, *Aliso* 35(1):28-40, 2017; Q141485298).
+- `openalex-id` and `openalex-url` fields in `carlquist_publications.csv`
+  (22 fields total). `openalex-id` is the OpenAlex work identifier, corresponding
+  to Wikidata property P10283; `openalex-url` is derived from it, following the
+  existing `wikidata-id`/`wikidata-url` convention. Coverage is 91% (315 of 346):
+  275 resolved by exact DOI match against the OpenAlex API, 40 by verified
+  title-and-year match. The 31 records without a value have no OpenAlex record at
+  all — they are papers in pre-DOI journals (*Tropical Woods*, *Phytomorphology*,
+  *Allertonia*, *Botaniska Notiser*, *Botanische Jahrbücher*, *Madroño*, *Memoirs
+  of the New York Botanical Garden*, *University of California Publications in
+  Botany*, *American Scientist*) plus nine chapters in edited volumes.
+- `tools/qs_common.py` now emits a P10283 statement when a record carries an
+  `openalex-id`, so newly created Wikidata items get the identifier at creation.
+- P10283 was pushed to the pre-existing Wikidata items for records in this dataset
+  via a QuickStatements batch of 313 statements. None of the 313 items carried the
+  property beforehand (verified against the Wikidata API before the batch ran).
+  Verified after the run: 312 of 313 landed with the expected value and none
+  received a wrong one. The remaining statement was generated against Q139119348,
+  which had since become a redirect to Q56211461 — QuickStatements does not write
+  to redirected QIDs — and was reissued against Q56211461. Final state, verified
+  against the Wikidata API: all 315 records with an `openalex-id` have a Wikidata
+  item carrying that same value as P10283.
+
+### Changed
+- `Wood Anatomy of Dipsacaceae` (1982): volume corrected from 34 to 31. Taxon
+  volume 31 is the 1982 volume — confirmed by a Crossref query on ISSN 0040-0262,
+  and Carlquist's own bibliography also gives "Taxon 31:443-450".
+- Record count updated from 344 to 346 publications in `README.md`,
+  `DATA_DICTIONARY.md`, and `dataset_metadata.json`; field count from 20 to 22.
+- "Vegetative Anatomy of the New Caledonian Endemic Amborella Trichopoda":
+  `wikidata-id` updated from Q139119348 to **Q56211461**. The two items were merged
+  on Wikidata and Q139119348 is now a redirect; Q56211461 is the surviving item and
+  the richer record, carrying both authors as P50 rather than name strings. Its
+  `issue` was also filled in as 3 (Pacific Science 55(3):305-312, confirmed in
+  Crossref), which was previously blank. All 346 `wikidata-id` values plus the 48
+  journal and 42 author QIDs in the lookup tables were checked for redirects and
+  deletions; this was the only stale one.
+- Corrected the author-table count in `README.md` and `DATA_DICTIONARY.md`, which
+  said "73 co-authors" from v2.0 onward. `carlquist_authors.csv` has 72 rows and one
+  of them is Carlquist himself, so it is 72 author records — Carlquist plus 71
+  co-authors — of which 42 carry a Wikidata QID. The v2.0 changelog entry is left
+  as originally published.
+- Normalized the line terminator on the final CSV row, which was the only CRLF
+  line in an otherwise LF file.
+
+### Removed
+- `Vernon Irvine Cheadle 1910-1995` (Schneider & Carlquist, *Madroño*, 1995,
+  Q93957716) — a tribute rather than peer-reviewed output, and therefore outside
+  the dataset's stated scope. Removing it makes the scope internally consistent
+  with the already-omitted *Philip A. Munz* tribute (*Aliso*, 1975) and *Peter H.
+  Raven — Asa Gray Award* citation (*Systematic Botany*, 1997). The Wikidata item
+  is unaffected; only this dataset's scope changed.
+
+### Fixed
+- `tools/add_publication.py` appended rows with `csv.writer`'s default `\r\n`
+  terminator, leaving each added row as the only CRLF line in the file. Now writes
+  `\n`.
+- `tools/add_publication.py` carries `openalex-id` through `FIELDS`, accepts
+  `--openalex-id`, and derives `openalex-url` on `finalize`.
+
 ## [2.1] - 2026-08-24
 
 ### Added

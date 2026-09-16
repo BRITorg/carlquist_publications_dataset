@@ -1,15 +1,15 @@
 # Data Dictionary: Sherwin Carlquist Publications Dataset
 
 ## Overview
-This dataset contains bibliographic metadata for 344 scientific publications by botanist Sherwin Carlquist, spanning his career from 1956 through his later works. The dataset follows Citation Style Language (CSL) and Dublin Core metadata standards.
+This dataset contains bibliographic metadata for 346 scientific publications by botanist Sherwin Carlquist, spanning his career from 1956 through his later works. The dataset follows Citation Style Language (CSL) and Dublin Core metadata standards.
 
-**Version:** 2.1
-**Last Updated:** August 24, 2026
+**Version:** 2.2
+**Last Updated:** September 16, 2026
 **Encoding:** UTF-8  
 **Format:** CSV (Comma-Separated Values)  
 **Files:** 3 (carlquist_publications.csv, carlquist_journals.csv, carlquist_authors.csv)  
-**Records:** 344 publications; 48 journals; 73 co-authors  
-**Fields:** 20 (carlquist_publications.csv)
+**Records:** 346 publications; 48 journals; 72 author records (Carlquist plus 71 co-authors)  
+**Fields:** 22 (carlquist_publications.csv)
 
 ## Field Definitions
 
@@ -189,7 +189,7 @@ This dataset contains bibliographic metadata for 344 scientific publications by 
 - **Example:** "Q93973579", "Q100376810"
 - **CSL Mapping:** N/A (extension field)
 - **Dublin Core:** `dc:identifier`
-- **Notes:** Links to the Wikidata item for this publication. Obtained through OpenRefine reconciliation and manual curation against Wikidata. Coverage: 100% of records (344 of 344 publications). Can be used to construct full Wikidata URL: https://www.wikidata.org/wiki/{wikidata-id}
+- **Notes:** Links to the Wikidata item for this publication. Obtained through OpenRefine reconciliation and manual curation against Wikidata. Coverage: 100% of records (346 of 346 publications). Can be used to construct full Wikidata URL: https://www.wikidata.org/wiki/{wikidata-id}
 
 #### wikidata-url
 - **Description:** Full URL to the Wikidata item for this publication
@@ -200,6 +200,26 @@ This dataset contains bibliographic metadata for 344 scientific publications by 
 - **CSL Mapping:** N/A (extension field)
 - **Dublin Core:** `dc:identifier`
 - **Notes:** Derived from wikidata-id. Provided as a convenience field for users who prefer a directly clickable URL.
+
+#### openalex-id
+- **Description:** OpenAlex work identifier for the publication
+- **Data Type:** String
+- **Required:** When available
+- **Format:** W followed by digits (OpenAlex work ID format)
+- **Example:** "W2952343940", "W2031914197"
+- **CSL Mapping:** N/A (extension field)
+- **Dublin Core:** `dc:identifier`
+- **Notes:** Corresponds to Wikidata property P10283 (OpenAlex ID). Coverage: 91% of records (315 of 346 publications). Resolved by exact DOI match against the OpenAlex API for 275 records and by verified title-and-year match for 40. The 31 records without an ID have no OpenAlex record at all rather than an unresolved one: they are papers in journals predating DOI registration (*Tropical Woods*, *Phytomorphology*, *Allertonia*, *Botaniska Notiser*, *Botanische Jahrbücher*, *Madroño*, *Memoirs of the New York Botanical Garden*, *University of California Publications in Botany*, *American Scientist*) and nine chapters in edited volumes. Two OpenAlex quirks affect this field: the 1998 *Microgramma nitida* paper exists twice in OpenAlex (W1507851166 under its Spanish title, W1933495356 under an English title misdated 2009) and this dataset uses the former; and W179140364 carries the truncated title "SEM studies of vessels in ferns" while being specifically the *Ceratopteris* paper in *Aquatic Botany*, so it should not be associated with other members of that numbered series.
+
+#### openalex-url
+- **Description:** Full URL to the OpenAlex record for this publication
+- **Data Type:** String (URL)
+- **Required:** When available
+- **Format:** https://openalex.org/W#####
+- **Example:** "https://openalex.org/W2952343940"
+- **CSL Mapping:** N/A (extension field)
+- **Dublin Core:** `dc:identifier`
+- **Notes:** Derived from openalex-id, matching the convention used for wikidata-url. This is the formatter URL registered for Wikidata property P10283.
 
 ---
 
@@ -293,8 +313,8 @@ Lookup table of all co-authors appearing in the publications dataset, with name 
 ### Completeness
 - All records include: title, author, year, issued date, type, and language
 - DOIs are present for approximately 40% of records (varies by publication era)
-- Wikidata IDs are present for 100% of publication records (344 of 344)
-- Wikidata IDs are present for all 48 journals and a subset of the 73 co-authors
+- Wikidata IDs are present for 100% of publication records (346 of 346)
+- Wikidata IDs are present for all 48 journals and for 42 of the 72 author records
 - ISBNs and OCLC numbers primarily available for books (14 book records)
 - URLs available for many but not all publications
 

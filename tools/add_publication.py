@@ -45,7 +45,7 @@ FIELDS = [
     "title", "container-title", "year", "issued", "author", "editor",
     "publisher", "volume", "issue", "page", "type", "container-ISSN",
     "container-eISSN", "container-ISBN", "container-OCLC-number", "DOI",
-    "wikidata-id", "wikidata-url", "URL", "language",
+    "wikidata-id", "wikidata-url", "openalex-id", "openalex-url", "URL", "language",
 ]
 
 FLAG_TO_FIELD = {
@@ -55,7 +55,7 @@ FLAG_TO_FIELD = {
     "page": "page", "type": "type", "container-issn": "container-ISSN",
     "container-eissn": "container-eISSN", "container-isbn": "container-ISBN",
     "container-oclc": "container-OCLC-number", "doi": "DOI", "url": "URL",
-    "language": "language",
+    "openalex-id": "openalex-id", "language": "language",
 }
 
 
@@ -140,6 +140,8 @@ def cmd_finalize(args):
 
     record["wikidata-id"] = args.wikidata_id
     record["wikidata-url"] = f"https://www.wikidata.org/wiki/{args.wikidata_id}"
+    if record.get("openalex-id"):
+        record["openalex-url"] = f"https://openalex.org/{record['openalex-id']}"
 
     warnings = check_duplicate_title(record["title"])
     for w in warnings:
@@ -155,7 +157,9 @@ def cmd_finalize(args):
     # Build the row in a StringIO so we can both preview and (optionally) append it.
     import io
     buf = io.StringIO()
-    writer = csv.writer(buf)
+    # lineterminator="\n" matches the rest of the file; csv.writer defaults to
+    # "\r\n", which left the v2.1 row as the only CRLF line in the CSV.
+    writer = csv.writer(buf, lineterminator="\n")
     writer.writerow([record.get(col, "") for col in header])
     row_text = buf.getvalue()
 

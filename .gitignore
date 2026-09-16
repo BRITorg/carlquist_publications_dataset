@@ -6,5 +6,14 @@ VERSION_TODO.md
 .claude/
 
 # Python virtual environment (for frictionless validation)
+# env/ is the directory actually used in this repo; .venv/ kept for compatibility
+# with the path named in CONTRIBUTING.md.
 .venv/
+env/
 __pycache__/
+
+# macOS metadata
+.DS_Store
+
+# LibreOffice lock files, left behind when a CSV is open in a spreadsheet app
+.~lock.*#

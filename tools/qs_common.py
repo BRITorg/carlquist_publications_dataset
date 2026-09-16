@@ -116,6 +116,7 @@ def build_create_block(row: dict, journals: dict, authors: dict) -> tuple:
     volume = row.get("volume", "").strip()
     issue = row.get("issue", "").strip()
     page = row.get("page", "").strip()
+    openalex_id = row.get("openalex-id", "").strip()
 
     lines.append("CREATE")
     lines.append(emit_statement("LAST", f"L{language}", f'"{title}"'))
@@ -128,6 +129,8 @@ def build_create_block(row: dict, journals: dict, authors: dict) -> tuple:
         lines.append(emit_statement("LAST", "P577", issued_qs))
     if doi:
         lines.append(emit_statement("LAST", "P356", f'"{doi}"'))
+    if openalex_id:
+        lines.append(emit_statement("LAST", "P10283", f'"{openalex_id}"'))
     if volume:
         lines.append(emit_statement("LAST", "P478", f'"{volume}"'))
     if issue:

@@ -2,17 +2,20 @@
 
 ## Project Overview
 
-Bibliographic dataset of 343 publications by botanist Sherwin Carlquist (1930–2021).
+Bibliographic dataset of 346 publications by botanist Sherwin Carlquist (1930–2021).
 Part of the Sherwin Carlquist Digital Extended Specimen Network (BRIT + California Botanic Garden).
 Published on Zenodo: DOI 10.5281/zenodo.18687469
 
-**Current version:** 2.0 (2026-04-17)
+**Current version:** 2.2 (2026-09-16)
+
+`bump_version.py` does **not** touch this file — update the version and counts here
+by hand as part of the release, or it silently falls behind.
 
 ## Files
 
 | File | Purpose |
 |------|---------|
-| `carlquist_publications.csv` | Main dataset (343 records, 20 fields) |
+| `carlquist_publications.csv` | Main dataset (346 records, 22 fields) |
 | `carlquist_journals.csv` | Journal lookup table (48 records) |
 | `carlquist_authors.csv` | Co-author lookup table (73 records) |
 | `datapackage.json` | Frictionless Data descriptor for all three CSVs |
@@ -68,6 +71,8 @@ Use `bump_version.py` to handle steps 2–3 automatically.
 - [ ] `CHANGELOG.md` has an entry for this version with meaningful descriptions
 - [ ] Record count in `README.md`, `DATA_DICTIONARY.md`, `dataset_metadata.json` matches CSV row count
 - [ ] Field count in `README.md`, `DATA_DICTIONARY.md`, `dataset_metadata.json` matches CSV column count
+- [ ] Version and counts in this file (`CLAUDE.md`) updated — `bump_version.py` does not touch it
+- [ ] No stored `wikidata-id` has become a redirect or been deleted (see QID rot, below)
 - [ ] `.zenodo.json` has the correct `publication_date`
 - [ ] `datapackage.json` version and resource schemas are current
 - [ ] Git is clean (all changes committed and pushed to `main`)
@@ -102,14 +107,22 @@ the user's explicit go-ahead.
 
 ## Data Structure Notes
 
-- **Records:** 343 publications; 48 journals; 73 co-authors (as of v2.0)
-- **Fields:** 20 in carlquist_publications.csv (as of v2.0)
+- **Records:** 346 publications; 48 journals; 72 author records (as of v2.2)
+- **Fields:** 22 in carlquist_publications.csv (as of v2.2)
 - **Encoding:** UTF-8
 - **Author format:** "Last, First; Last, First" (semicolon-separated)
 - **Date format:** ISO 8601 (YYYY, YYYY-MM, or YYYY-MM-DD)
 - **Type vocabulary:** `article-journal`, `book`, `chapter` (CSL-JSON)
 - **Language codes:** ISO 639-1 (`en` for all records)
-- **Wikidata IDs:** 100% coverage (343 of 343 records)
+- **Wikidata IDs:** 100% coverage (346 of 346 records)
+- **OpenAlex IDs:** 91% coverage (315 of 346 records), Wikidata property P10283. The
+  31 gaps have no OpenAlex record at all — pre-DOI journals and edited-volume
+  chapters — so they are not resolvable, not merely unresolved.
+- **QID rot:** items get merged on Wikidata and the old QID becomes a redirect,
+  which breaks a stored `wikidata-id` silently and makes QuickStatements refuse the
+  statement. Check before each release with the `wbgetentities` API,
+  `props=info&redirects=yes` — the response carries a `redirects: {from, to}` field
+  per entity and flags deletions as `missing`.
 
 ## Versioning
 

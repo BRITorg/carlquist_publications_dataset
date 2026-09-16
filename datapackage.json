@@ -10,7 +10,7 @@
   ],
   "title": "Sherwin Carlquist Publications Dataset",
   "description": "Comprehensive bibliographic metadata for 344 scientific publications by botanist Sherwin Carlquist (1930-2021), spanning his career from 1956 through his later works. Includes companion lookup tables for journals and co-authors with Wikidata identifiers.",
-  "version": "2.1",
+  "version": "2.2",
   "contributors": [
     {
       "title": "Jason H. Best",
@@ -203,6 +203,22 @@
             "title": "Wikidata URL",
             "type": "string",
             "description": "Full URL to the Wikidata item for this publication. Constructed from wikidata-id as https://www.wikidata.org/wiki/{wikidata-id}.",
+            "format": "uri"
+          },
+          {
+            "name": "openalex-id",
+            "title": "OpenAlex ID",
+            "type": "string",
+            "description": "OpenAlex work identifier. Format: W followed by digits. Corresponds to Wikidata property P10283. Coverage is 91% (315 of 346); the remainder are papers with no OpenAlex record, chiefly pre-DOI journals and chapters in edited volumes.",
+            "constraints": {
+              "pattern": "^W\\d+$"
+            }
+          },
+          {
+            "name": "openalex-url",
+            "title": "OpenAlex URL",
+            "type": "string",
+            "description": "Full URL to the OpenAlex record for this publication. Constructed from openalex-id as https://openalex.org/{openalex-id}.",
             "format": "uri"
           },
           {

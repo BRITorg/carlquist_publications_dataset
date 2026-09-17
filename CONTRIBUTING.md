@@ -29,7 +29,11 @@ citation. Note the source URL — it goes in the `URL` field.
 - [ ] Search `carlquist_publications.csv` for the title (`add_publication.py draft`
   does an automatic substring/exact check and warns on stderr, but do a manual
   look too if the title might have been transcribed differently)
-- [ ] Search Wikidata for an existing item before assuming one needs to be created
+- [ ] Search Wikidata for an existing item before assuming one needs to be created.
+      `add_publication.py`'s duplicate check only scans the CSV and does not cover
+      this. Search by `haswbstatement:P356="<doi>"`, by
+      `haswbstatement:P10283="<openalex-id>"`, and by exact title — see
+      `MAINTENANCE_NOTES.md`
 
 ### 3. Confirm journal and author(s) have Wikidata QIDs
 

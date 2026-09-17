@@ -17,10 +17,11 @@ by hand as part of the release, or it silently falls behind.
 |------|---------|
 | `carlquist_publications.csv` | Main dataset (346 records, 22 fields) |
 | `carlquist_journals.csv` | Journal lookup table (48 records) |
-| `carlquist_authors.csv` | Co-author lookup table (73 records) |
+| `carlquist_authors.csv` | Author lookup table (72 records, incl. Carlquist) |
 | `datapackage.json` | Frictionless Data descriptor for all three CSVs |
 | `README.md` | Human-readable overview |
 | `DATA_DICTIONARY.md` | Field definitions and metadata documentation |
+| `MAINTENANCE_NOTES.md` | Gotchas: Wikidata/OpenAlex traps, CSV hazards, source reliability |
 | `CHANGELOG.md` | Version history (Keep a Changelog format) |
 | `CITATION.cff` | Machine-readable citation (CFF 1.2.0) |
 | `dataset_metadata.json` | Technical metadata |
@@ -118,11 +119,13 @@ the user's explicit go-ahead.
 - **OpenAlex IDs:** 91% coverage (315 of 346 records), Wikidata property P10283. The
   31 gaps have no OpenAlex record at all — pre-DOI journals and edited-volume
   chapters — so they are not resolvable, not merely unresolved.
-- **QID rot:** items get merged on Wikidata and the old QID becomes a redirect,
-  which breaks a stored `wikidata-id` silently and makes QuickStatements refuse the
-  statement. Check before each release with the `wbgetentities` API,
-  `props=info&redirects=yes` — the response carries a `redirects: {from, to}` field
-  per entity and flags deletions as `missing`.
+
+**Read `MAINTENANCE_NOTES.md` before editing the data or running the Wikidata
+tooling.** It documents the traps that no validation step catches: QID rot and the
+redirect check, searching for an existing item before a CREATE, verifying that a
+QuickStatements batch actually landed, the LibreOffice lock hazard on the CSV, line
+endings, `datapackage.json` regex escaping, and which source to trust when values
+disagree.
 
 ## Versioning
 

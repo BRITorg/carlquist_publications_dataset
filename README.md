@@ -17,6 +17,7 @@ This dataset includes the following files:
 - **carlquist_authors.csv** - Companion co-author lookup table (73 records)
 - **datapackage.json** - Frictionless Data descriptor for all three CSVs
 - **DATA_DICTIONARY.md** - Complete field definitions and metadata documentation
+- **MAINTENANCE_NOTES.md** - Maintainer notes: identifier pitfalls, editing hazards, and which source to trust when records disagree
 - **CHANGELOG.md** - Version history
 - **README.md** - This file
 - **CITATION.cff** - Machine-readable citation format

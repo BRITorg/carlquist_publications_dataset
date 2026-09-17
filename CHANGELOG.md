@@ -37,6 +37,12 @@ matched; the differences are resolved below.
   *Allertonia*, *Botaniska Notiser*, *Botanische Jahrbücher*, *Madroño*, *Memoirs
   of the New York Botanical Garden*, *University of California Publications in
   Botany*, *American Scientist*) plus nine chapters in edited volumes.
+- `MAINTENANCE_NOTES.md` — a maintainer-facing record of the traps that no
+  validation step catches: Wikidata QID rot and the redirect check, searching for an
+  existing item before a CREATE, verifying that a QuickStatements batch landed, the
+  OpenAlex records that must not be confused, the LibreOffice lock hazard on the CSV,
+  line endings, `datapackage.json` regex escaping, and which source to trust when
+  Carlquist's own bibliography disagrees with Crossref.
 - `tools/qs_common.py` now emits a P10283 statement when a record carries an
   `openalex-id`, so newly created Wikidata items get the identifier at creation.
 - P10283 was pushed to the pre-existing Wikidata items for records in this dataset

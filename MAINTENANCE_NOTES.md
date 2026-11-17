@@ -210,3 +210,15 @@ Useful when a value looks wrong and you are deciding which source to trust.
 - **`carlquist_authors.csv` has 72 rows and one of them is Carlquist himself** — so
   72 author records, 71 co-authors, 42 carrying a QID. The "73 co-authors" figure
   repeated from v2.0 through v2.1 was wrong.
+- **One title is deliberately corrected against Crossref and Wikidata.** The Aliso
+  record for "Stylidium in Arnhem Land: New Species, Modes of Speciation on the
+  Sandstone Plateau, and Comments on Floral Mimicry" (1979, *Aliso* 9(3):411-461,
+  DOI `10.5642/aliso.19790903.03`, Q96016370) is stored here as "Arnhem". The
+  publisher's metadata, and therefore Crossref and the Wikidata P1476 title
+  statement and its reference, read "Arnherm". The typo is not in the printed
+  article. The en and nl labels on Q96016370 were fixed by hand; P1476 was left
+  alone because it is sourced from Crossref and should follow once Aliso corrects
+  its deposit (correction request sent to Aliso 2026-11-17). A
+  reconciliation against Crossref or OpenAlex will flag this record as a title
+  mismatch — that is expected, and the CSV value is the correct one. Re-check
+  Crossref later and, once it reads "Arnhem", update P1476 and drop this note.

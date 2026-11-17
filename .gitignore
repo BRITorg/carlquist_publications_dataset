@@ -1,6 +1,9 @@
 # DATASET_PROFILE.md is meant for starting new conversations with AI tools.
 DATASET_PROFILE.md
 VERSION_TODO.md
+INTERNET_ARCHIVE_UPLOAD_TODO.md
+WAYBACK_PDF_REVIEW.csv
+wayback_pdf_mapping.json
 
 # Claude Code internal files
 .claude/

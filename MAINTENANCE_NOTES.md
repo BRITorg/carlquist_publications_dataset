@@ -182,6 +182,13 @@ level yields a pattern matching a literal backslash, and `frictionless` then fai
   `datapackage.json`. It does **not** touch `CLAUDE.md`, `DATASET_PROFILE.md` or this
   file, so their version and count lines drift unless updated by hand. `CLAUDE.md`
   was two releases stale when v2.2 was prepared.
+- **The Publications Explorer is not built from this repo.** It lives in
+  `BRITorg/carlquist_esn` (`publications_explorer.html`, with its publication list
+  duplicated in `llms-full.txt`) and holds a hand-pasted snapshot of this dataset,
+  so it goes stale after every release. That repo owns regenerating it; see its
+  `CLAUDE.md`. Its docs hardcode the record count, so expect that to drift too.
+  The stale `tools/carlquist_dashboard.html` copy that used to live here (a
+  343-record snapshot, last refreshed before v2.1) was deleted after v2.2.
 
 ---
 

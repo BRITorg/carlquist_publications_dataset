@@ -105,6 +105,13 @@ the user's explicit go-ahead.
 4. Verify afterward: check the Actions tab for a successful "Add subjects to
    Zenodo" run, and check the Zenodo record itself for the new version and
    correct metadata.
+5. Refresh downstream consumers. The Publications Explorer
+   (`publications_explorer.html`) and `llms-full.txt` in
+   [`BRITorg/carlquist_esn`](https://github.com/BRITorg/carlquist_esn) embed a
+   snapshot of this dataset and are regenerated there; that repo owns the process.
+   Nothing here triggers or checks it, so a release leaves the explorer stale until
+   someone does it. (An earlier copy of the dashboard lived in `tools/`; it was
+   removed after the explorer moved to `carlquist_esn`.)
 
 ## Data Structure Notes
 

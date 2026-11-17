@@ -74,6 +74,10 @@ matched; the differences are resolved below.
   of them is Carlquist himself, so it is 72 author records — Carlquist plus 71
   co-authors — of which 42 carry a Wikidata QID. The v2.0 changelog entry is left
   as originally published.
+- "Stylidium in Arnhem Land: New Species, Modes of Speciation on the Sandstone
+  Plateau, and Comments on Floral Mimicry" (*Aliso* 9(3), 1979): title typo
+  "Arnherm" corrected to "Arnhem". The misspelling originates in the publisher's
+  (Claremont Scholarship) metadata, not in the printed article.
 - Normalized the line terminator on the final CSV row, which was the only CRLF
   line in an otherwise LF file.
 

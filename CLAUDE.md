@@ -6,7 +6,7 @@ Bibliographic dataset of 346 publications by botanist Sherwin Carlquist (1930–
 Part of the Sherwin Carlquist Digital Extended Specimen Network (BRIT + California Botanic Garden).
 Published on Zenodo: DOI 10.5281/zenodo.18687469
 
-**Current version:** 2.2 (2026-09-16)
+**Current version:** 2.2 (2026-11-17)
 
 `bump_version.py` does **not** touch this file — update the version and counts here
 by hand as part of the release, or it silently falls behind.

@@ -4,7 +4,7 @@
 This dataset contains bibliographic metadata for 346 scientific publications by botanist Sherwin Carlquist, spanning his career from 1956 through his later works. The dataset follows Citation Style Language (CSL) and Dublin Core metadata standards.
 
 **Version:** 2.2
-**Last Updated:** September 16, 2026
+**Last Updated:** November 17, 2026
 **Encoding:** UTF-8  
 **Format:** CSV (Comma-Separated Values)  
 **Files:** 3 (carlquist_publications.csv, carlquist_journals.csv, carlquist_authors.csv)  

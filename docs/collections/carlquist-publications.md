@@ -14,7 +14,7 @@ license: CC0-1.0
 datasets:
 - id: carlquist_publications / carlquist_journals / carlquist_authors
   repo: carlquist_publications_dataset
-  kind: Released CSV dataset (v2.2 in the repo, published 2026-09-16; the Zenodo copy may differ)
+  kind: Released CSV dataset (v2.2 in the repo, published 2026-11-17; the Zenodo copy may differ)
   note: read in place from the repo; Zenodo is the citable copy
 related:
 - brit-archives-00012

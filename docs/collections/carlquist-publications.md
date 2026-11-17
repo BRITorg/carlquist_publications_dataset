@@ -5,8 +5,8 @@ status: draft
 type: bibliography
 holder: Botanical Research Institute of Texas (BRIT)
 summary: Bibliography of Sherwin Carlquist (1930-2021) with lookup tables for journals and co-authors.
-extent: 344 publications (324 journal articles, 13 chapters, 7 books); 48 journals; 72 co-authors in the CSV (README says 73)
-date_range: 1956-2021
+extent: 346 publications, 48 journals, 72 co-authors (CSV row counts at v2.2, checked 2026-11-17)
+date_range: 1956-2021 (not re-checked at v2.2)
 geography: not applicable
 taxa: not recorded
 access: Public. Zenodo (concept DOI 10.5281/zenodo.18687469) and GitHub.
@@ -14,7 +14,7 @@ license: CC0-1.0
 datasets:
 - id: carlquist_publications / carlquist_journals / carlquist_authors
   repo: carlquist_publications_dataset
-  kind: Released CSV dataset (v2.1, 2026-08-24)
+  kind: Released CSV dataset (v2.2 in the repo, published 2026-09-16; the Zenodo copy may differ)
   note: read in place from the repo; Zenodo is the citable copy
 related:
 - brit-archives-00012
